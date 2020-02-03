@@ -38,14 +38,84 @@
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
         "semi": [2, "never"],
-        "comma-dangle": "off"
+        "comma-dangle": "off",
+        "arrow-body-style": 0,
+        "camelcase": "off",
+        "eqeqeq": "error",
+        "guard-for-in": "warn",
+        "lines-between-class-members": ["warn", "always"],
+        "no-console": "warn",
+        "no-debugger": "warn",
+        "no-param-reassign": "warn",
+        "no-plusplus": "warn",
+        "no-restricted-syntax": ["warn", "ForOfStatement"],
+        "no-unused-vars": "off",
+        "padding-line-between-statements": [
+          "warn",
+          { "blankLine": "always", "prev": "block-like", "next": "*" },
+          { "blankLine": "always", "prev": "multiline-expression", "next": "*" }
+        ],
+        "prefer-const": "warn",
+        "sort-keys": "warn",
+        "react/display-name": "off",
+        "react/jsx-boolean-value": ["warn", "always"],
+        "react/jsx-no-target-blank": "off",
+        "react/jsx-uses-vars": "warn",
+        "react/no-access-state-in-setstate": "error",
+        "react/no-deprecated": "warn",
+        "react/no-did-mount-set-state": "warn",
+        "react/no-did-update-set-state": "warn",
+        "react/no-direct-mutation-state": "error",
+        "react/no-find-dom-node": "warn",
+        "react/no-this-in-sfc": "error",
+        "react/no-unescaped-entities": "warn",
+        "react/no-unused-prop-types": "warn",
+        "react/no-unused-state": "warn",
+        "react/no-will-update-set-state": "warn",
+        "react/prefer-stateless-function": "warn",
+        "react/require-default-props": "warn",
+        "react/sort-prop-types": "warn",
+        "react/style-prop-object": "warn",
+        "react-hooks/exhaustive-deps": "warn",
+        "react-hooks/rules-of-hooks": "warn",
+        "@typescript-eslint/array-type": "warn",
+        "@typescript-eslint/camelcase": "warn",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/interface-name-prefix": ["warn", "always"],
+        "@typescript-eslint/consistent-type-assertions": [
+          "warn",
+          {
+            "assertionStyle": "as",
+            "objectLiteralTypeAssertions": "allow-as-parameter"
+          }
+        ],
+        "@typescript-eslint/no-non-null-assertion": "warn",
+        "@typescript-eslint/no-parameter-properties": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+        ],
+        "@typescript-eslint/no-use-before-define": "warn",
+        "@typescript-eslint/consistent-type-definitions": "off"
     },
-    "settings": {
-        "import/resolver": {
-            "node": {
-                "extensions": [".js", ".jsx", ".ts", ".tsx"],
-                "paths": ["./src", "./pages"]
-            }
+    "overrides": [
+        {
+          "files": ["*.spec.tsx", "*.spec.ts"],
+          "rules": {
+            "sort-keys": "off",
+    
+            "@typescript-eslint/camelcase": "off",
+            "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-non-null-assertion": "off",
+            "@typescript-eslint/consistent-type-assertions": "off"
+          }
+        },
+        {
+          "files": ["*.service.ts"],
+          "rules": {
+            "sort-keys": "off"
+          }
         }
-    }
+      ]
 }
