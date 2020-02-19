@@ -1,1 +1,1 @@
-export * from './shoppingItem.context'
+export * from './ShoppingItemContext/shoppingItem.context'
