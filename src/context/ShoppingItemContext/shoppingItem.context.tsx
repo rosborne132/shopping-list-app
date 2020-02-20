@@ -1,5 +1,7 @@
 import * as React from 'react'
 
+import axios from 'axios'
+
 export type Item = {
     id: number
     name: string
@@ -25,16 +27,23 @@ export const ShoppingItemContext = React.createContext<InitState>(initState)
 export const ShoppingItemProvider = ({ children }) => {
     const [items, setItems] = React.useState([])
 
-    const addItem = (name: string): void => {
-        const newItem = {
-            name,
-            id: items.length + 1,
-            isPurchased: false
+    const addItem = async (name: string) => {
+        try {
+            const results = await axios.post('/api/item', { name })
+            console.log(results)
+        } catch (err) {
+            console.error(err)
+        } finally {
+            const newItem = {
+                name,
+                id: items.length + 1,
+                isPurchased: false
+            }
+
+            const newItems = [...items, newItem]
+
+            setItems(newItems)
         }
-
-        const newItems = [...items, newItem]
-
-        setItems(newItems)
     }
 
     const editItem = (id: number): void => {
