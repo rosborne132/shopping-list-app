@@ -25,12 +25,6 @@ export const ShoppingItemContext = React.createContext<InitState>(initState)
 export const ShoppingItemProvider = ({ children }) => {
     const [items, setItems] = React.useState([])
 
-    const setItemList = (newItem: Item): void => {
-        const newItems = [...items, newItem]
-
-        setItems(newItems)
-    }
-
     const addItem = (name: string): void => {
         const newItem = {
             name,
@@ -38,15 +32,17 @@ export const ShoppingItemProvider = ({ children }) => {
             isPurchased: false
         }
 
-        setItemList(newItem)
+        const newItems = [...items, newItem]
+
+        setItems(newItems)
     }
 
     const editItem = (id: number): void => {
-        const item = items.filter(item => item.id !== id)
+        const item = items.filter(item => item.id === id)
+        const newItem = { ...item[0], isPurchased: !item[0].isPurchased }
+        const newItems = items.map(item => (item.id === id ? newItem : item))
 
-        const newItem = { ...item[0], isPurchased: true }
-
-        setItemList(newItem)
+        setItems(newItems)
     }
 
     const deleteItem = (id: number): void => {

@@ -8,6 +8,12 @@ export const ItemForm: React.FC = React.memo(
 
         const onSubmit = (e: React.FormEvent<EventTarget>): void => {
             e.preventDefault()
+
+            if (!shoppingItem.length) {
+                return
+            }
+
+            setShoppingItem('')
             addItem(shoppingItem)
         }
 
@@ -22,12 +28,46 @@ export const ItemForm: React.FC = React.memo(
                         />
                     </label>
 
-                    <button type="submit">Submit</button>
+                    <button id="shoppingSubmit" type="submit">
+                        Submit
+                    </button>
                 </fieldset>
                 <style jsx>
                     {`
                         fieldset {
                             border: none;
+                            display: flex;
+                            justify-content: space-between;
+                            margin: 0;
+                            padding: 0;
+                        }
+
+                        label {
+                            width: 100%;
+                        }
+
+                        #shoppingItem {
+                            border-radius: 10px;
+                            border: none;
+                            border: solid 1px #ccc;
+                            font-size: 16px;
+                            height: 25px;
+                            text-indent: 10px;
+                            width: 95%;
+                        }
+
+                        #shoppingSubmit {
+                            background-color: #63b3ed;
+                            border-radius: 10px;
+                            border: none;
+                            border: solid 1px #ccc;
+                            color: #fff;
+                            padding: 5px;
+                            width: 20%;
+                        }
+
+                        #shoppingSubmit:hover {
+                            cursor: pointer;S
                         }
                     `}
                 </style>

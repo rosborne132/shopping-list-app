@@ -7,7 +7,7 @@ const App = () => (
     <ShoppingItemProvider>
         <Layout>
             <div className="hero">
-                <h1 className="title">App</h1>
+                <h1 className="title">Shopping List</h1>
 
                 <section role="section" className="container">
                     <ItemForm />
@@ -18,11 +18,13 @@ const App = () => (
             <style jsx>
                 {`
                     .container {
-                        border: 1px solid #000;
+                        -webkit-box-shadow: 3px 2px 11px -8px rgba(20, 20, 20, 1);
+                        -moz-box-shadow: 3px 2px 11px -8px rgba(20, 20, 20, 1);
+                        box-shadow: 3px 2px 11px -8px rgba(20, 20, 20, 1);
                         border-radius: 10px;
                         margin: 0 auto;
-                        padding: 30px;
                         max-width: 325px;
+                        padding: 30px;
                     }
 
                     .hero {
@@ -31,11 +33,11 @@ const App = () => (
                     }
 
                     .title {
-                        margin: 0;
-                        width: 100%;
-                        padding: 40px 0;
-                        line-height: 1.15;
                         font-size: 48px;
+                        line-height: 1.15;
+                        margin: 0;
+                        padding: 20px 0;
+                        width: 100%;
                     }
 
                     .title,
