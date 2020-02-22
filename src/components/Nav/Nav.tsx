@@ -1,52 +1,69 @@
 import * as React from 'react'
 import Link from 'next/link'
 
-const links = [
-    { href: 'https://zeit.co/now', label: 'ZEIT' },
-    { href: 'https://github.com/zeit/next.js', label: 'GitHub' }
-].map(link => ({
-    ...link,
-    key: `nav-link-${link.href}-${link.label}`
-}))
-
 const Nav: React.FC = (): JSX.Element => (
-    <nav>
-        <ul>
-            <li>
-                <Link href="/">
-                    <a>Home</a>
-                </Link>
-            </li>
-            {links.map(({ key, href, label }) => (
-                <li key={key}>
-                    <a href={href}>{label}</a>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <Link href="/">
+                        <a>Home</a>
+                    </Link>
                 </li>
-            ))}
-        </ul>
+                <li>
+                    <Link href="/about">
+                        <a>About</a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/api/auth/login">
+                        <a>Login</a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/api/auth/logout">
+                        <a>Logout</a>
+                    </Link>
+                </li>
+            </ul>
+        </nav>
         <style jsx>
             {`
-                nav {
-                    text-align: center;
+                header {
+                    padding: 0.2rem;
+                    color: #fff;
+                    background-color: #333;
                 }
-
+                nav {
+                    max-width: 42rem;
+                    margin: 1.5rem auto;
+                }
                 ul {
                     display: flex;
-                    justify-content: space-between;
+                    list-style: none;
+                    margin-left: 0;
+                    padding-left: 0;
                 }
-
-                ul li {
-                    display: flex;
-                    padding: 6px 8px;
+                li {
+                    margin-right: 1rem;
                 }
-
-                li a {
-                    color: #067df7;
+                li:nth-child(2) {
+                    margin-right: auto;
+                }
+                a {
+                    color: #fff;
                     text-decoration: none;
-                    font-size: 13px;
+                }
+                button {
+                    font-size: 1rem;
+                    color: #fff;
+                    cursor: pointer;
+                    border: none;
+                    background: none;
                 }
             `}
         </style>
-    </nav>
+    </header>
 )
 
 export default Nav

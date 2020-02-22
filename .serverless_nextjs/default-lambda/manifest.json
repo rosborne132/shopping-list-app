@@ -1,0 +1,22 @@
+{
+    "pages": {
+        "ssr": {
+            "dynamic": {},
+            "nonDynamic": {
+                "/_error": "pages/_error.js",
+                "/_app": "pages/_app.js",
+                "/_document": "pages/_document.js"
+            }
+        },
+        "html": {
+            "dynamic": {},
+            "nonDynamic": {
+                "/app": "pages/app.html",
+                "/index": "pages/index.html",
+                "/": "pages/index.html"
+            }
+        }
+    },
+    "publicFiles": { "/favicon.ico": "favicon.ico" },
+    "cloudFrontOrigins": {}
+}

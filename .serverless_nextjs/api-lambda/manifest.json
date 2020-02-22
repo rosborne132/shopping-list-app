@@ -1,0 +1,6 @@
+{
+    "apis": {
+        "dynamic": {},
+        "nonDynamic": { "/api/item": "pages/api/item.js" }
+    }
+}

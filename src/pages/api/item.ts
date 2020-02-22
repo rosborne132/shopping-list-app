@@ -1,5 +1,4 @@
-export default (req, res) => {
-    console.log(req.method)
+export default async (req, res) => {
     switch (req.method) {
         case 'POST':
             console.log('Make post request')

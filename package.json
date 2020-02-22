@@ -7,7 +7,7 @@
         "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
         "analyze": "cross-env ANALYZE=true next build",
         "build": "next build",
-        "deploy": "serverless deploy",
+        "deploy": "npx serverless",
         "dev": "next dev",
         "lint:pages": "eslint --fix './pages/**/*.{ts,tsx}'",
         "lint:src": "eslint --fix './src/**/*.{ts,tsx}'",
@@ -19,6 +19,7 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.26",
         "@fortawesome/free-solid-svg-icons": "^5.12.0",
         "@fortawesome/react-fontawesome": "^0.1.8",
+        "@auth0/nextjs-auth0": "^0.5.0",
         "@next/bundle-analyzer": "^9.1.6",
         "@types/node": "^13.7.0",
         "@types/react": "^16.9.19",
@@ -28,14 +29,12 @@
         "isomorphic-unfetch": "^3.0.0",
         "next": "9.1.4",
         "react": "16.12.0",
-        "react-dom": "16.12.0",
-        "swr": "^0.1.15"
+        "react-dom": "16.12.0"
     },
     "devDependencies": {
         "@types/next": "7.0.6",
         "@typescript-eslint/eslint-plugin": "^2.7.0",
         "@typescript-eslint/parser": "^2.7.0",
-        "cross-env": "^6.0.3",
         "eslint": "^6.2.2",
         "eslint-config-airbnb": "^18.0.1",
         "eslint-config-prettier": "^6.1.0",

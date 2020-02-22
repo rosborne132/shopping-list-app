@@ -1,0 +1,17 @@
+{
+    "name": "kwwf24q-a4s7h2",
+    "hash": "RleRnMsfvGMwHAszV01eD8vqV3Px3Su0PAxIsWNQrf0=",
+    "description": "API Lambda@Edge for Next CloudFront distribution",
+    "memory": 512,
+    "timeout": 10,
+    "code": "/Users/robertosborne/Documents/Programming/Web Development/Thinkful/react/next/shopping-list-app/.serverless_nextjs/api-lambda",
+    "shims": [],
+    "handler": "index.handler",
+    "runtime": "nodejs10.x",
+    "env": {},
+    "role": {
+        "arn": "arn:aws:iam::280138148799:role/kwwf24q-wqil22"
+    },
+    "arn": "arn:aws:lambda:us-east-1:280138148799:function:kwwf24q-a4s7h2",
+    "region": "us-east-1"
+}

@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import auth0 from '../../lib/auth0'
 import { ItemForm, ItemList, Layout } from '../components'
 
 import { ShoppingItemProvider } from '../context'
@@ -49,5 +50,20 @@ const App = () => (
         </Layout>
     </ShoppingItemProvider>
 )
+
+App.getInitialProps = async ({ req, res }) => {
+    return auth0.getSession(req).then(data => {
+        if (data === null) {
+            console.log('No user found')
+            res.writeHead(302, {
+                Location: '/api/auth/login'
+            })
+            res.end()
+            return
+        }
+
+        return data
+    })
+}
 
 export default memo(App)
