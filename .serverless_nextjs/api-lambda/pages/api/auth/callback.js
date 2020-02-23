@@ -119,7 +119,7 @@ module.exports = /******/ (function(modules) {
     /******/
     /******/
     /******/ /******/ return __webpack_require__(
-        (__webpack_require__.s = 'si+1')
+        (__webpack_require__.s = 'MI1t')
     )
     /******/
 })(
@@ -6748,12 +6748,6 @@ module.exports = /******/ (function(modules) {
             }
 
             module.exports.CancelError = PCancelable.CancelError
-
-            /***/
-        },
-
-        /***/ '9Jkg': /***/ function(module, exports, __webpack_require__) {
-            module.exports = __webpack_require__('oh+g')
 
             /***/
         },
@@ -14845,6 +14839,36 @@ module.exports = /******/ (function(modules) {
             /***/
         },
 
+        /***/ JVI5: /***/ function(
+            module,
+            __webpack_exports__,
+            __webpack_require__
+        ) {
+            'use strict'
+            __webpack_require__.r(__webpack_exports__)
+            /* harmony import */ var _lib_auth0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+                '2NqA'
+            )
+
+            const callback = async (req, res) => {
+                try {
+                    await _lib_auth0__WEBPACK_IMPORTED_MODULE_0__[
+                        /* default */ 'a'
+                    ].handleCallback(req, res, {
+                        redirectTo: '/app'
+                    })
+                } catch (error) {
+                    res.status(error.status || 500).end(error.message)
+                }
+            }
+
+            /* harmony default export */ __webpack_exports__[
+                'default'
+            ] = callback
+
+            /***/
+        },
+
         /***/ 'JlL/': /***/ function(module, exports, __webpack_require__) {
             'use strict'
 
@@ -15749,6 +15773,71 @@ module.exports = /******/ (function(modules) {
                 return encoding === 'buffer'
                     ? buf
                     : buf.toString(encoding || 'binary')
+            }
+
+            /***/
+        },
+
+        /***/ MI1t: /***/ function(
+            module,
+            __webpack_exports__,
+            __webpack_require__
+        ) {
+            'use strict'
+            __webpack_require__.r(__webpack_exports__)
+            /* harmony import */ var url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+                'bzos'
+            )
+            /* harmony import */ var url__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(
+                url__WEBPACK_IMPORTED_MODULE_0__
+            )
+            /* harmony import */ var next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+                'PCLx'
+            )
+            /* harmony import */ var next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(
+                next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__
+            )
+            /* harmony import */ var next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+                'GX0O'
+            )
+            /* harmony import */ var next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+                'KqAr'
+            )
+
+            /* harmony default export */ __webpack_exports__[
+                'default'
+            ] = async (req, res) => {
+                try {
+                    await Object(
+                        next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_2__[
+                            'default'
+                        ]
+                    )()
+                    const params = {}
+                    const resolver = __webpack_require__('JVI5')
+                    Object(
+                        next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__[
+                            'apiResolver'
+                        ]
+                    )(
+                        req,
+                        res,
+                        params,
+                        resolver,
+                        next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__[
+                            'default'
+                        ]
+                    )
+                } catch (err) {
+                    console.error(err)
+                    await Object(
+                        next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__[
+                            'default'
+                        ]
+                    )(err)
+                    res.statusCode = 500
+                    res.end('Internal Server Error')
+                }
             }
 
             /***/
@@ -24164,77 +24253,6 @@ module.exports = /******/ (function(modules) {
             }
 
             module.exports = curves
-
-            /***/
-        },
-
-        /***/ bRue: /***/ function(
-            module,
-            __webpack_exports__,
-            __webpack_require__
-        ) {
-            'use strict'
-            __webpack_require__.r(__webpack_exports__)
-            /* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                '9Jkg'
-            )
-            /* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(
-                _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__
-            )
-            /* harmony import */ var _lib_auth0__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                '2NqA'
-            )
-
-            const checkUser = async (req, res) => {
-                const data = await _lib_auth0__WEBPACK_IMPORTED_MODULE_1__[
-                    /* default */ 'a'
-                ].getSession(req)
-
-                if (data === null) {
-                    res.send('No Authorized', 302)
-                    res.end()
-                }
-
-                return data === null
-            }
-
-            /* harmony default export */ __webpack_exports__[
-                'default'
-            ] = async (req, res) => {
-                const isNotAuthorized = await checkUser(req, res)
-
-                if (isNotAuthorized) {
-                    return
-                }
-
-                switch (req.method) {
-                    case 'POST':
-                        console.log('Make post request')
-                        res.end(
-                            _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(
-                                {
-                                    name: 'John Doe'
-                                }
-                            )
-                        )
-                        break
-
-                    case 'GET':
-                        console.log('Make get request')
-                        break
-
-                    case 'UPDATE':
-                        console.log('Make update request')
-                        break
-
-                    case 'DELETE':
-                        console.log('Make delete request')
-                        break
-
-                    default:
-                        console.log('Default case')
-                }
-            }
 
             /***/
         },
@@ -33378,17 +33396,6 @@ module.exports = /******/ (function(modules) {
             /***/
         },
 
-        /***/ 'oh+g': /***/ function(module, exports, __webpack_require__) {
-            var core = __webpack_require__('WEpk')
-            var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify })
-            module.exports = function stringify(it) {
-                // eslint-disable-line no-unused-vars
-                return $JSON.stringify.apply($JSON, arguments)
-            }
-
-            /***/
-        },
-
         /***/ or5M: /***/ function(module, exports, __webpack_require__) {
             var SetCache = __webpack_require__('1hJj'),
                 arraySome = __webpack_require__('QoRX'),
@@ -34984,71 +34991,6 @@ module.exports = /******/ (function(modules) {
             }
 
             module.exports = isLength
-
-            /***/
-        },
-
-        /***/ 'si+1': /***/ function(
-            module,
-            __webpack_exports__,
-            __webpack_require__
-        ) {
-            'use strict'
-            __webpack_require__.r(__webpack_exports__)
-            /* harmony import */ var url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                'bzos'
-            )
-            /* harmony import */ var url__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(
-                url__WEBPACK_IMPORTED_MODULE_0__
-            )
-            /* harmony import */ var next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                'PCLx'
-            )
-            /* harmony import */ var next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(
-                next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__
-            )
-            /* harmony import */ var next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-                'GX0O'
-            )
-            /* harmony import */ var next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
-                'KqAr'
-            )
-
-            /* harmony default export */ __webpack_exports__[
-                'default'
-            ] = async (req, res) => {
-                try {
-                    await Object(
-                        next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_2__[
-                            'default'
-                        ]
-                    )()
-                    const params = {}
-                    const resolver = __webpack_require__('bRue')
-                    Object(
-                        next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__[
-                            'apiResolver'
-                        ]
-                    )(
-                        req,
-                        res,
-                        params,
-                        resolver,
-                        next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__[
-                            'default'
-                        ]
-                    )
-                } catch (err) {
-                    console.error(err)
-                    await Object(
-                        next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__[
-                            'default'
-                        ]
-                    )(err)
-                    res.statusCode = 500
-                    res.end('Internal Server Error')
-                }
-            }
 
             /***/
         },

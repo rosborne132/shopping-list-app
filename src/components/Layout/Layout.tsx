@@ -13,6 +13,15 @@ export const Layout: React.FC = memo(
             <Nav />
 
             <main>{children}</main>
+
+            <style jsx global>
+                {`
+                    body {
+                        padding: 0;
+                        margin: 0;
+                    }
+                `}
+            </style>
         </div>
     )
 )

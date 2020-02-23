@@ -30,7 +30,7 @@ export const ShoppingItemProvider = ({ children }) => {
     const addItem = async (name: string) => {
         try {
             const results = await axios.post('/api/item', { name })
-            console.log(results)
+            // console.log(results)
         } catch (err) {
             console.error(err)
         } finally {

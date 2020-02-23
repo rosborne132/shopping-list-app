@@ -1,6 +1,12 @@
 {
     "apis": {
         "dynamic": {},
-        "nonDynamic": { "/api/item": "pages/api/item.js" }
+        "nonDynamic": {
+            "/api/auth/callback": "pages/api/auth/callback.js",
+            "/api/auth/login": "pages/api/auth/login.js",
+            "/api/auth/logout": "pages/api/auth/logout.js",
+            "/api/auth/me": "pages/api/auth/me.js",
+            "/api/item": "pages/api/item.js"
+        }
     }
 }

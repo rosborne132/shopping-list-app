@@ -8,19 +8,21 @@ export const ItemList: React.FC = React.memo(
         const { items } = React.useContext(ShoppingItemContext)
 
         return (
-            <ul>
-                {items.map(({ id, name, isPurchased }) => (
-                    <Item id={id} name={name} isPurchased={isPurchased} />
-                ))}
+            items && (
+                <ul>
+                    {items.map(({ id, name, isPurchased }) => (
+                        <Item id={id} name={name} isPurchased={isPurchased} />
+                    ))}
 
-                <style jsx>
-                    {`
-                        ul {
-                            padding: 0;
-                        }
-                    `}
-                </style>
-            </ul>
+                    <style jsx>
+                        {`
+                            ul {
+                                padding: 0;
+                            }
+                        `}
+                    </style>
+                </ul>
+            )
         )
     }
 )

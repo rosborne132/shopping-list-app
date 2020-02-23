@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import auth0 from '../../lib/auth0'
 import { ItemForm, ItemList, Layout } from '../components'
 
@@ -54,7 +54,6 @@ const App = () => (
 App.getInitialProps = async ({ req, res }) => {
     return auth0.getSession(req).then(data => {
         if (data === null) {
-            console.log('No user found')
             res.writeHead(302, {
                 Location: '/api/auth/login'
             })
@@ -66,4 +65,4 @@ App.getInitialProps = async ({ req, res }) => {
     })
 }
 
-export default memo(App)
+export default App
