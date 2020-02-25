@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid'
 import dbClient, { docClient, parseData } from '../../../lib/dynamodb'
 
 export type Item = {
-    username: string
+    username?: string
     itemId?: string
     isPurchased?: boolean
     name?: string
@@ -11,7 +11,7 @@ export type Item = {
 const TableName =
     process.env.NODE_ENV !== 'production' ? 'user-items-dev' : 'user-items-prod'
 
-export const getItems = async ({ username }: Item) => {
+export const getItems = async ({ username }: Item): Promise<Item[]> => {
     const { Items } = await dbClient
         .query({
             TableName,
@@ -29,7 +29,7 @@ export const getItems = async ({ username }: Item) => {
     return Items.map(item => parseData.unmarshall(item))
 }
 
-export const putItem = async ({ name, username }: Item) => {
+export const putItem = async ({ name, username }: Item): Promise<Item> => {
     const params = {
         TableName,
         Item: {

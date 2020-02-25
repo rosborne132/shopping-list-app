@@ -20,19 +20,21 @@ export default async (req: express.Request, res: express.Response) => {
                 name: req.body.name,
                 username: user.nickname
             })
-            // res.end(JSON.stringify(results))
             break
+
         case 'GET':
             console.log('Make get request')
             results = await getItems({ username: user.nickname })
-            // res.end(JSON.stringify(results))
             break
+
         case 'UPDATE':
             console.log('Make update request')
             break
+
         case 'DELETE':
             console.log('Make delete request')
             break
+
         default:
             console.log('Default case')
     }
