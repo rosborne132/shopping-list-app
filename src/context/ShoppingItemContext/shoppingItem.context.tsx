@@ -27,6 +27,12 @@ export const ShoppingItemContext = React.createContext<InitState>(initState)
 export const ShoppingItemProvider = ({ children }) => {
     const [items, setItems] = React.useState([])
 
+    React.useEffect(() => {
+        axios.get('/api/item').then(res => {
+            setItems(res.data)
+        })
+    }, [])
+
     const addItem = async (name: string) => {
         try {
             const results = await axios.post('/api/item', { name })

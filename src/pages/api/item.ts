@@ -1,30 +1,31 @@
 import auth0 from '../../../lib/auth0'
+import * as express from 'express'
 
-const checkUser = async (req, res) => {
-    const data = await auth0.getSession(req)
+import { checkUser, getItems, putItem } from '../../services'
 
-    if (data === null) {
-        res.send('No Authorized', 302)
-        res.end()
-    }
-
-    return data === null
-}
-
-export default async (req, res) => {
+export default async (req: express.Request, res: express.Response) => {
     const isNotAuthorized = await checkUser(req, res)
 
     if (isNotAuthorized) {
         return
     }
 
+    const { user } = await auth0.getSession(req)
+    let results
+
     switch (req.method) {
         case 'POST':
             console.log('Make post request')
-            res.end(JSON.stringify({ name: 'John Doe' }))
+            results = await putItem({
+                name: req.body.name,
+                username: user.nickname
+            })
+            // res.end(JSON.stringify(results))
             break
         case 'GET':
             console.log('Make get request')
+            results = await getItems({ username: user.nickname })
+            // res.end(JSON.stringify(results))
             break
         case 'UPDATE':
             console.log('Make update request')
@@ -35,4 +36,6 @@ export default async (req, res) => {
         default:
             console.log('Default case')
     }
+
+    res.end(JSON.stringify(results))
 }
