@@ -2,10 +2,10 @@ import { v4 as uuid } from 'uuid'
 import dbClient, { docClient, parseData } from '../../../lib/dynamodb'
 
 export type Item = {
-    username?: string
-    itemId?: string
     isPurchased?: boolean
-    name?: string
+    itemId?: string
+    itemName?: string
+    username?: string
 }
 
 const TableName =
@@ -16,6 +16,7 @@ export const getItems = async ({ username }: Item): Promise<Item[]> => {
         .query({
             TableName,
             IndexName: 'username-index',
+            ProjectionExpression: 'isPurchased, itemId, itemName',
             KeyConditionExpression: '#user = :v_user',
             ExpressionAttributeNames: {
                 '#user': 'username'
@@ -29,13 +30,13 @@ export const getItems = async ({ username }: Item): Promise<Item[]> => {
     return Items.map(item => parseData.unmarshall(item))
 }
 
-export const putItem = async ({ name, username }: Item): Promise<Item> => {
+export const putItem = async ({ itemName, username }: Item): Promise<Item> => {
     const params = {
         TableName,
         Item: {
             isPurchased: false,
             itemId: uuid(),
-            name,
+            itemName,
             username
         }
     }
@@ -44,7 +45,54 @@ export const putItem = async ({ name, username }: Item): Promise<Item> => {
     } catch (err) {
         console.error(err)
     } finally {
-        const { itemId, name, isPurchased } = params.Item
-        return { itemId, name, isPurchased }
+        const { itemId, itemName, isPurchased } = params.Item
+        return { itemId, itemName, isPurchased }
+    }
+}
+
+export const deleteItem = async ({ itemId, username }: Item) => {
+    const params = {
+        TableName,
+        Key: {
+            itemId,
+            username
+        },
+        ConditionExpression: 'itemId = :id',
+        ExpressionAttributeValues: {
+            ':id': itemId
+        }
+    }
+
+    try {
+        await docClient.delete(params).promise()
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+export const patchItem = async ({ item, username }) => {
+    const { itemId, isPurchased, itemName } = item
+    const newValue = !isPurchased
+    console.log(newValue)
+    const params = {
+        TableName,
+        Key: {
+            itemId,
+            username
+        },
+        UpdateExpression: 'set isPurchased = :val',
+        ExpressionAttributeValues: {
+            ':val': newValue
+        },
+
+        ReturnValues: 'UPDATED_NEW'
+    }
+
+    try {
+        await docClient.update(params).promise()
+    } catch (err) {
+        console.error(err)
+    } finally {
+        return { itemId, itemName, isPurchased: !isPurchased }
     }
 }

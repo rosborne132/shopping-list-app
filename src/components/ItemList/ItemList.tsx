@@ -7,22 +7,28 @@ export const ItemList: React.FC = React.memo(
     (): JSX.Element => {
         const { items } = React.useContext(ShoppingItemContext)
 
-        return (
-            items && (
-                <ul>
-                    {items.map(({ id, name, isPurchased }) => (
-                        <Item id={id} name={name} isPurchased={isPurchased} />
-                    ))}
+        console.log(items)
 
-                    <style jsx>
-                        {`
-                            ul {
-                                padding: 0;
-                            }
-                        `}
-                    </style>
-                </ul>
-            )
+        if (!items) return <div>Loading...</div>
+
+        return (
+            <ul>
+                {items.map(({ itemId, itemName, isPurchased }) => (
+                    <Item
+                        itemId={itemId}
+                        itemName={itemName}
+                        isPurchased={isPurchased}
+                    />
+                ))}
+
+                <style jsx>
+                    {`
+                        ul {
+                            padding: 0;
+                        }
+                    `}
+                </style>
+            </ul>
         )
     }
 )

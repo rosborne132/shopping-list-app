@@ -2,28 +2,28 @@ import * as React from 'react'
 import { ShoppingItemContext } from '../../../context'
 
 export type Item = {
-    id: number
-    name: string
+    itemId: number
+    itemName: string
     isPurchased: boolean
 }
 
 export const Item: React.FC<Item> = React.memo(
-    ({ id, name, isPurchased }): JSX.Element => {
+    ({ itemId, itemName, isPurchased }): JSX.Element => {
         const { deleteItem, editItem } = React.useContext(ShoppingItemContext)
         const crossedThrough = isPurchased ? 'checked' : ''
 
         return (
-            <li key={id}>
+            <li key={itemId}>
                 <span className="listContainter">
                     <span
                         className={`listTitle ${crossedThrough}`}
-                        onClick={() => editItem(id)}
+                        onClick={() => editItem(itemId)}
                     >
-                        {name}
+                        {itemName}
                     </span>
                     <button
                         className="listDeleteButton"
-                        onClick={() => deleteItem(id)}
+                        onClick={() => deleteItem(itemId)}
                     >
                         X
                     </button>

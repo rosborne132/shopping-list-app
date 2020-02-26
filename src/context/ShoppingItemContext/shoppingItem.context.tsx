@@ -3,8 +3,8 @@ import * as React from 'react'
 import axios from 'axios'
 
 export type Item = {
-    id: number
-    name: string
+    itemId: number
+    itemName: string
     isPurchased: boolean
 }
 
@@ -27,43 +27,52 @@ export const ShoppingItemContext = React.createContext<InitState>(initState)
 export const ShoppingItemProvider = ({ children }) => {
     const [items, setItems] = React.useState([])
 
+    const apiUrl: string = '/api/item'
+
     React.useEffect(() => {
-        axios.get('/api/item').then(res => {
+        axios.get(apiUrl).then(res => {
             setItems(res.data)
         })
     }, [])
 
-    const addItem = async (name: string) => {
+    const addItem = async (itemName: string): Promise<void> => {
+        let newItem
         try {
-            const results = await axios.post('/api/item', { name })
-            // console.log(results)
+            newItem = await axios.post(apiUrl, { itemName })
         } catch (err) {
             console.error(err)
         } finally {
-            const newItem = {
-                name,
-                id: items.length + 1,
-                isPurchased: false
-            }
-
-            const newItems = [...items, newItem]
+            const newItems = [...items, newItem.data]
 
             setItems(newItems)
         }
     }
 
-    const editItem = (id: number): void => {
-        const item = items.filter(item => item.id === id)
-        const newItem = { ...item[0], isPurchased: !item[0].isPurchased }
-        const newItems = items.map(item => (item.id === id ? newItem : item))
-
-        setItems(newItems)
+    const editItem = async (itemId: string): Promise<void> => {
+        let newItem
+        const item = items.filter(item => item.itemId === itemId)[0]
+        try {
+            newItem = await axios.patch(apiUrl, { item })
+        } catch (err) {
+            console.error(err)
+        } finally {
+            const newItems = items.map(item =>
+                item.itemId === itemId ? newItem.data : item
+            )
+            setItems(newItems)
+        }
     }
 
-    const deleteItem = (id: number): void => {
-        const newItems = items.filter(item => item.id !== id)
-
-        setItems(newItems)
+    const deleteItem = async (itemId: string): Promise<void> => {
+        try {
+            await axios.delete(`${apiUrl}?itemId=${itemId}`)
+        } catch (err) {
+            console.error(err)
+            return
+        } finally {
+            const newItems = items.filter(item => item.itemId !== itemId)
+            setItems(newItems)
+        }
     }
 
     const initState: InitState = {

@@ -1,7 +1,13 @@
 import auth0 from '../../../lib/auth0'
 import * as express from 'express'
 
-import { checkUser, getItems, putItem } from '../../services'
+import {
+    checkUser,
+    deleteItem,
+    getItems,
+    patchItem,
+    putItem
+} from '../../services'
 
 export default async (req: express.Request, res: express.Response) => {
     const isNotAuthorized = await checkUser(req, res)
@@ -17,7 +23,7 @@ export default async (req: express.Request, res: express.Response) => {
         case 'POST':
             console.log('Make post request')
             results = await putItem({
-                name: req.body.name,
+                itemName: req.body.itemName,
                 username: user.nickname
             })
             break
@@ -27,16 +33,25 @@ export default async (req: express.Request, res: express.Response) => {
             results = await getItems({ username: user.nickname })
             break
 
-        case 'UPDATE':
-            console.log('Make update request')
+        case 'PATCH':
+            console.log('Make patch request')
+            results = await patchItem({
+                item: req.body.item,
+                username: user.nickname
+            })
             break
 
         case 'DELETE':
             console.log('Make delete request')
+            results = await deleteItem({
+                itemId: req.query.itemId,
+                username: user.nickname
+            })
             break
 
         default:
             console.log('Default case')
+            res.end()
     }
 
     res.end(JSON.stringify(results))
