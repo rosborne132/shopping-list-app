@@ -73,7 +73,6 @@ export const deleteItem = async ({ itemId, username }: Item) => {
 export const patchItem = async ({ item, username }) => {
     const { itemId, isPurchased, itemName } = item
     const newValue = !isPurchased
-    console.log(newValue)
     const params = {
         TableName,
         Key: {

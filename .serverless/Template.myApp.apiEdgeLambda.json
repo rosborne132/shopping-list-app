@@ -1,17 +1,17 @@
 {
-    "name": "kwwf24q-a4s7h2",
-    "hash": "Ja51A9fthTpGP+UTQI2mhKJugyXVg6hNB1UTDrKYEII=",
-    "description": "API Lambda@Edge for Next CloudFront distribution",
-    "memory": 512,
-    "timeout": 10,
-    "code": "/Users/robertosborne/Documents/Programming/Web Development/Thinkful/react/next/shopping-list-app/.serverless_nextjs/api-lambda",
-    "shims": [],
-    "handler": "index.handler",
-    "runtime": "nodejs10.x",
-    "env": {},
-    "role": {
-        "arn": "arn:aws:iam::280138148799:role/kwwf24q-wqil22"
-    },
-    "arn": "arn:aws:lambda:us-east-1:280138148799:function:kwwf24q-a4s7h2",
-    "region": "us-east-1"
+  "name": "nr97blv-4mpsnc9",
+  "hash": "+qR8/iHUZqV6ctrU5/pwZqCEwhXfDd4H5D4Wg3pgq3o=",
+  "description": "API Lambda@Edge for Next CloudFront distribution",
+  "memory": 512,
+  "timeout": 10,
+  "code": "/Users/robertosborne/Documents/Programming/Web Development/Thinkful/react/next/shopping-list-app/.serverless_nextjs/api-lambda",
+  "shims": [],
+  "handler": "index.handler",
+  "runtime": "nodejs10.x",
+  "env": {},
+  "role": {
+    "arn": "arn:aws:iam::280138148799:role/nr97blv-224n4n"
+  },
+  "arn": "arn:aws:lambda:us-east-1:280138148799:function:nr97blv-4mpsnc9",
+  "region": "us-east-1"
 }

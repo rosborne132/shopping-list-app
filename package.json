@@ -8,6 +8,7 @@
         "analyze": "cross-env ANALYZE=true next build",
         "build": "next build",
         "deploy": "npx serverless",
+        "deploy:stack": "npx serverless deploy",
         "dev": "next dev",
         "lint:pages": "eslint --fix './pages/**/*.{ts,tsx}'",
         "lint:src": "eslint --fix './src/**/*.{ts,tsx}'",

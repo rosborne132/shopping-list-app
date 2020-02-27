@@ -1,13 +1,13 @@
 {
-    "region": "us-east-1",
-    "privateZone": false,
-    "domain": "shopping-list-app.com",
-    "subdomains": [
-        {
-            "domain": "www.shopping-list-app.com",
-            "distributionId": "E20B2MYGO9Y9GQ",
-            "url": "https://d10hlmnhfd1asr.cloudfront.net",
-            "type": "awsCloudFront"
-        }
-    ]
+  "region": "us-east-1",
+  "privateZone": false,
+  "domain": "shopping-list-app.com",
+  "subdomains": [
+    {
+      "domain": "www.shopping-list-app.com",
+      "distributionId": "E61I74BKXZQOZ",
+      "url": "https://d2rn2wy0nlpnvw.cloudfront.net",
+      "type": "awsCloudFront"
+    }
+  ]
 }

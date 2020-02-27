@@ -7,8 +7,6 @@ export const ItemList: React.FC = React.memo(
     (): JSX.Element => {
         const { items } = React.useContext(ShoppingItemContext)
 
-        console.log(items)
-
         if (!items) return <div>Loading...</div>
 
         return (
