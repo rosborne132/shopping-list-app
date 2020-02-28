@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { motion } from 'framer-motion'
 import { ShoppingItemContext } from '../../../context'
 
 export type Item = {
@@ -10,10 +11,15 @@ export type Item = {
 export const Item: React.FC<Item> = React.memo(
     ({ itemId, itemName, isPurchased }): JSX.Element => {
         const { deleteItem, editItem } = React.useContext(ShoppingItemContext)
-        const crossedThrough = isPurchased ? 'checked' : ''
+        const crossedThrough = isPurchased ? 'strike' : ''
 
         return (
-            <li key={itemId}>
+            <motion.li
+                className="listItem"
+                key={itemId}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.99 }}
+            >
                 <span className="listContainter">
                     <span
                         className={`listTitle ${crossedThrough}`}
@@ -28,13 +34,8 @@ export const Item: React.FC<Item> = React.memo(
                         X
                     </button>
                 </span>
-
                 <style jsx>
                     {`
-                        .checked {
-                            text-decoration: line-through;
-                        }
-
                         .listContainter {
                             display: flex;
                             justify-content: space-between;
@@ -52,19 +53,18 @@ export const Item: React.FC<Item> = React.memo(
                             font-size: 14px;
                         }
 
-                        li {
+                        .listItem {
                             list-style-type: none;
                             padding: 5px 0;
                             width: 100%;
                         }
-
                         .listDeleteButton:hover,
-                        li:hover {
+                        .listItem:hover {
                             cursor: pointer;
                         }
                     `}
                 </style>
-            </li>
+            </motion.li>
         )
     }
 )

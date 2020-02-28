@@ -21,7 +21,6 @@ export default async (req: express.Request, res: express.Response) => {
 
     switch (req.method) {
         case 'POST':
-            console.log('Make post request')
             results = await putItem({
                 itemName: req.body.itemName,
                 username: user.nickname
@@ -29,12 +28,10 @@ export default async (req: express.Request, res: express.Response) => {
             break
 
         case 'GET':
-            console.log('Make get request')
             results = await getItems({ username: user.nickname })
             break
 
         case 'PATCH':
-            console.log('Make patch request')
             results = await patchItem({
                 item: req.body.item,
                 username: user.nickname
@@ -42,7 +39,6 @@ export default async (req: express.Request, res: express.Response) => {
             break
 
         case 'DELETE':
-            console.log('Make delete request')
             results = await deleteItem({
                 itemId: req.query.itemId,
                 username: user.nickname
@@ -50,7 +46,6 @@ export default async (req: express.Request, res: express.Response) => {
             break
 
         default:
-            console.log('Default case')
             res.end()
     }
 
