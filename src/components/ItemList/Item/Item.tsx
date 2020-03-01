@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { ShoppingItemContext } from '../../../context'
 
 export type Item = {
@@ -21,8 +23,7 @@ export const Item: React.FC<Item> = React.memo(
                     width: '100%'
                 }}
                 key={itemId}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.999 }}
+                whileTap={{ scale: 0.98 }}
             >
                 <span className="flex pointer justify-between">
                     <span
@@ -32,10 +33,10 @@ export const Item: React.FC<Item> = React.memo(
                         {itemName}
                     </span>
                     <button
-                        className="bg-white bn f5 pointer"
+                        className="bg-white bn pointer"
                         onClick={() => deleteItem(itemId)}
                     >
-                        X
+                        <FontAwesomeIcon icon={faTrash} />
                     </button>
                 </span>
             </motion.li>

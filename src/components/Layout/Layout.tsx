@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import Head from 'next/head'
-import Nav from '../Nav/Nav'
+import { Nav } from '../Nav/Nav'
 
 export const Layout: React.FC = memo(
     ({ children }): JSX.Element => (
@@ -13,15 +13,6 @@ export const Layout: React.FC = memo(
             <Nav />
 
             <main>{children}</main>
-
-            <style jsx global>
-                {`
-                    body {
-                        padding: 0;
-                        margin: 0;
-                    }
-                `}
-            </style>
         </div>
     )
 )

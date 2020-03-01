@@ -2,54 +2,32 @@ import React from 'react'
 import auth0 from '../../lib/auth0'
 import { ItemForm, ItemList, Layout } from '../components'
 
-import { ShoppingItemProvider } from '../context'
+import { ShoppingItemProvider, UserContext } from '../context'
 
-const App = () => (
-    <ShoppingItemProvider>
-        <Layout>
-            <div className="hero">
-                <h1 className="title">Shopping List</h1>
+const App = ({ user }) => {
+    const { updateUserStatus } = React.useContext(UserContext)
 
-                <section role="section" className="container">
-                    <ItemForm />
-                    <ItemList />
-                </section>
-            </div>
+    React.useEffect(() => {
+        if (user === null) {
+            return null
+        }
 
-            <style jsx>
-                {`
-                    .container {
-                        -webkit-box-shadow: 3px 2px 11px -8px rgba(20, 20, 20, 1);
-                        -moz-box-shadow: 3px 2px 11px -8px rgba(20, 20, 20, 1);
-                        box-shadow: 3px 2px 11px -8px rgba(20, 20, 20, 1);
-                        border-radius: 10px;
-                        margin: 0 auto;
-                        max-width: 325px;
-                        padding: 30px;
-                    }
+        updateUserStatus(true)
+    }, [])
 
-                    .hero {
-                        width: 100%;
-                        color: #333;
-                    }
-
-                    .title {
-                        font-size: 48px;
-                        line-height: 1.15;
-                        margin: 0;
-                        padding: 20px 0;
-                        width: 100%;
-                    }
-
-                    .title,
-                    .description {
-                        text-align: center;
-                    }
-                `}
-            </style>
-        </Layout>
-    </ShoppingItemProvider>
-)
+    return (
+        <ShoppingItemProvider>
+            <Layout>
+                <div className="container ph4 sans-serif">
+                    <section role="section" className="br4 pa3 shadow-5">
+                        <ItemForm />
+                        <ItemList />
+                    </section>
+                </div>
+            </Layout>
+        </ShoppingItemProvider>
+    )
+}
 
 App.getInitialProps = async ({ req, res }) => {
     return auth0.getSession(req).then(data => {

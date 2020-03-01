@@ -677,6 +677,10 @@ img {
 .cn {
     clear: none;
 }
+.container {
+    margin: 1.5rem auto;
+    max-width: 42rem;
+}
 .dn {
     display: none;
 }
@@ -2613,9 +2617,7 @@ code {
     max-width: 20em;
 }
 .indent {
-    text-indent: 1em;
-    margin-top: 0;
-    margin-bottom: 0;
+    text-indent: 0.5em;
 }
 .small-caps {
     font-variant: small-caps;
