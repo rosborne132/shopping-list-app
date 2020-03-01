@@ -12,10 +12,11 @@ To help others keep track of there current shopping items.
 
 ### Tech Used
 
--   React
--   Dynamodb
 -   Auth0
+-   Dynamodb
 -   Nextjs
+-   React
+-   Typescript
 
 ## Running the app locally
 
