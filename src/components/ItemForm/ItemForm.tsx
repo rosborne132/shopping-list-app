@@ -20,8 +20,8 @@ export const ItemForm: React.FC = React.memo(
 
         return (
             <form onSubmit={onSubmit}>
-                <fieldset>
-                    <label htmlFor="shoppingItem">
+                <fieldset className="bn flex justify-space pa0 ma0">
+                    <label className="w-100" htmlFor="shoppingItem">
                         <input
                             id="shoppingItem"
                             value={shoppingItem}
@@ -29,23 +29,16 @@ export const ItemForm: React.FC = React.memo(
                         />
                     </label>
 
-                    <button id="shoppingSubmit" type="submit">
+                    <button
+                        id="shoppingSubmit"
+                        className="bg-blue"
+                        type="submit"
+                    >
                         Submit
                     </button>
                 </fieldset>
                 <style jsx>
                     {`
-                        fieldset {
-                            border: none;
-                            display: flex;
-                            justify-content: space-between;
-                            margin: 0;
-                            padding: 0;
-                        }
-
-                        label {
-                            width: 100%;
-                        }
 
                         #shoppingItem {
                             border-radius: 10px;
@@ -58,7 +51,6 @@ export const ItemForm: React.FC = React.memo(
                         }
 
                         #shoppingSubmit {
-                            background-color: #63b3ed;
                             border-radius: 10px;
                             border: none;
                             border: solid 1px #ccc;

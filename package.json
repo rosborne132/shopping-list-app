@@ -14,6 +14,8 @@
         "lint:src": "eslint --fix './src/**/*.{ts,tsx}'",
         "lint": "yarn run lint:src && yarn run lint:pages",
         "now": "next now",
+        "serverless:debug": "sls --debug",
+        "serverless:watch": "sls --watch",
         "start": "next start"
     },
     "dependencies": {
@@ -22,6 +24,7 @@
         "@fortawesome/free-solid-svg-icons": "^5.12.0",
         "@fortawesome/react-fontawesome": "^0.1.8",
         "@next/bundle-analyzer": "^9.1.6",
+        "@serverless/aws-dynamodb": "^4.0.0",
         "@types/node": "^13.7.0",
         "@types/react": "^16.9.19",
         "@zeit/next-css": "^1.0.1",

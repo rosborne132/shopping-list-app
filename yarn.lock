@@ -989,6 +989,15 @@
     aws-sdk "^2.499.0"
     ramda "^0.26.1"
 
+"@serverless/aws-dynamodb@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@serverless/aws-dynamodb/-/aws-dynamodb-4.0.0.tgz#a8e53647741001fedd63d4f483ffcac74974f57d"
+  integrity sha512-oZCBI8mV/O61LpzBgiI8ZkOYPYv8M6mb2pnGx/qyRfZQSaUHghmSr0dbod9ACQq2Fwv38Bt4deJGga+3P/9efQ==
+  dependencies:
+    "@serverless/core" "^1.0.0"
+    aws-sdk "^2.0.0"
+    ramda "^0.26.0"
+
 "@serverless/aws-iam-role@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@serverless/aws-iam-role/-/aws-iam-role-1.0.0.tgz#bab4ee9dd82f3f05b875daa9bb4b27f28038dc51"
@@ -1739,6 +1748,21 @@ autoprefixer@^9.6.1:
     num2fraction "^1.2.2"
     postcss "^7.0.26"
     postcss-value-parser "^4.0.2"
+
+aws-sdk@^2.0.0:
+  version "2.630.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.630.0.tgz#108ccd50b585226db8d1798def73f7b873a2efa6"
+  integrity sha512-7BDPUIqmMZfZf+KN2Z3RpGDYGkEucQORLM2EqXuE91ETW5ySvoNd771+EaE3OS+FUx3JejfcVk8Rr2ZFU38RjA==
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.13"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.3.2"
+    xml2js "0.4.19"
 
 aws-sdk@^2.387.0, aws-sdk@^2.474.0, aws-sdk@^2.488.0, aws-sdk@^2.499.0, aws-sdk@^2.603.0:
   version "2.621.0"

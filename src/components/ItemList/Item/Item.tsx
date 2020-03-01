@@ -15,55 +15,29 @@ export const Item: React.FC<Item> = React.memo(
 
         return (
             <motion.li
-                className="listItem"
+                style={{
+                    listStyleType: 'none',
+                    padding: '5px 0',
+                    width: '100%'
+                }}
                 key={itemId}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.99 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.999 }}
             >
-                <span className="listContainter">
+                <span className="flex pointer justify-between">
                     <span
-                        className={`listTitle ${crossedThrough}`}
+                        className={`f4 pl0 ${crossedThrough}`}
                         onClick={() => editItem(itemId)}
                     >
                         {itemName}
                     </span>
                     <button
-                        className="listDeleteButton"
+                        className="bg-white bn f5 pointer"
                         onClick={() => deleteItem(itemId)}
                     >
                         X
                     </button>
                 </span>
-                <style jsx>
-                    {`
-                        .listContainter {
-                            display: flex;
-                            justify-content: space-between;
-                        }
-
-                        .listTitle {
-                            font-size: 20px;
-                            padding-left: 5px;
-                            width: 100%;
-                        }
-
-                        .listDeleteButton {
-                            border: none;
-                            background-color: #fff;
-                            font-size: 14px;
-                        }
-
-                        .listItem {
-                            list-style-type: none;
-                            padding: 5px 0;
-                            width: 100%;
-                        }
-                        .listDeleteButton:hover,
-                        .listItem:hover {
-                            cursor: pointer;
-                        }
-                    `}
-                </style>
             </motion.li>
         )
     }

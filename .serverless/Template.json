@@ -1,5 +1,6 @@
 {
   "components": {
-    "myApp": "/Users/robertosborne/.serverless/components/registry/npm/serverless-next.js@1.9.2/node_modules/serverless-next.js"
+    "myApp": "/Users/robertosborne/.serverless/components/registry/npm/serverless-next.js@1.9.3/node_modules/serverless-next.js",
+    "database": "/Users/robertosborne/.serverless/components/registry/npm/@serverless/aws-dynamodb@4.0.0/node_modules/@serverless/aws-dynamodb"
   }
 }
