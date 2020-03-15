@@ -1,9 +1,9 @@
 {
-  "name": "nr97blv-224n4n",
-  "arn": "arn:aws:iam::280138148799:role/nr97blv-224n4n",
+  "name": "nf7laf-6nyix6a",
+  "arn": "arn:aws:iam::280138148799:role/nf7laf-6nyix6a",
   "service": [
-    "edgelambda.amazonaws.com",
-    "lambda.amazonaws.com"
+    "lambda.amazonaws.com",
+    "edgelambda.amazonaws.com"
   ],
   "policy": {
     "arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"

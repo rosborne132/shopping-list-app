@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "LbLj");
+/******/ 	return __webpack_require__(__webpack_require__.s = "xVVR");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -22235,7 +22235,7 @@ module.exports = function createError(message, config, code, request, response) 
 /***/ "LZ9C":
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"devFiles\":[],\"pages\":{\"/\":[\"static/runtime/webpack-9369c5c69dbf6d4912cb.js\",\"static/chunks/commons.40fe4f1e7932c5ae491f.js\",\"static/runtime/main-b22b9183e3d96646b54d.js\"],\"/_app\":[\"static/runtime/webpack-9369c5c69dbf6d4912cb.js\",\"static/chunks/commons.40fe4f1e7932c5ae491f.js\",\"static/css/styles.a922daaa.chunk.css\",\"static/chunks/styles.0cfd6b3124be0c4f384d.js\",\"static/runtime/main-b22b9183e3d96646b54d.js\"],\"/_error\":[\"static/runtime/webpack-9369c5c69dbf6d4912cb.js\",\"static/chunks/commons.40fe4f1e7932c5ae491f.js\",\"static/runtime/main-b22b9183e3d96646b54d.js\"],\"/_polyfills\":[\"static/runtime/polyfills-e16a3c6fbdef155ac22e.js\"],\"/app\":[\"static/runtime/webpack-9369c5c69dbf6d4912cb.js\",\"static/chunks/commons.40fe4f1e7932c5ae491f.js\",\"static/runtime/main-b22b9183e3d96646b54d.js\"],\"/index\":[\"static/runtime/webpack-9369c5c69dbf6d4912cb.js\",\"static/chunks/commons.40fe4f1e7932c5ae491f.js\",\"static/runtime/main-b22b9183e3d96646b54d.js\"]}}");
+module.exports = JSON.parse("{\"devFiles\":[],\"pages\":{\"/\":[\"static/runtime/webpack-9369c5c69dbf6d4912cb.js\",\"static/chunks/commons.40fe4f1e7932c5ae491f.js\",\"static/runtime/main-a9e8bb883bf59dc8fd3c.js\"],\"/_app\":[\"static/runtime/webpack-9369c5c69dbf6d4912cb.js\",\"static/chunks/commons.40fe4f1e7932c5ae491f.js\",\"static/css/styles.aa85b28b.chunk.css\",\"static/chunks/styles.0742c3ccadaf0ef91877.js\",\"static/runtime/main-a9e8bb883bf59dc8fd3c.js\"],\"/_error\":[\"static/runtime/webpack-9369c5c69dbf6d4912cb.js\",\"static/chunks/commons.40fe4f1e7932c5ae491f.js\",\"static/runtime/main-a9e8bb883bf59dc8fd3c.js\"],\"/_polyfills\":[\"static/runtime/polyfills-e16a3c6fbdef155ac22e.js\"],\"/app\":[\"static/runtime/webpack-9369c5c69dbf6d4912cb.js\",\"static/chunks/commons.40fe4f1e7932c5ae491f.js\",\"static/runtime/main-a9e8bb883bf59dc8fd3c.js\"],\"/index\":[\"static/runtime/webpack-9369c5c69dbf6d4912cb.js\",\"static/chunks/commons.40fe4f1e7932c5ae491f.js\",\"static/runtime/main-a9e8bb883bf59dc8fd3c.js\"]}}");
 
 /***/ }),
 
@@ -22252,221 +22252,6 @@ module.exports = function pick(object, ...paths) {
   return obj;
 };
 
-
-/***/ }),
-
-/***/ "LbLj":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-var app_namespaceObject = {};
-__webpack_require__.r(app_namespaceObject);
-__webpack_require__.d(app_namespaceObject, "default", function() { return app; });
-
-// EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__("bzos");
-
-// EXTERNAL MODULE: external "querystring"
-var external_querystring_ = __webpack_require__("8xkj");
-
-// EXTERNAL MODULE: ./node_modules/next/dist/next-server/server/render.js
-var render = __webpack_require__("/bjS");
-
-// EXTERNAL MODULE: ./node_modules/next/dist/next-server/server/send-html.js
-var send_html = __webpack_require__("LuNM");
-
-// EXTERNAL MODULE: ./node_modules/next/dist/build/webpack/loaders/next-plugin-loader.js?middleware=on-init-server
-var next_plugin_loadermiddleware_on_init_server = __webpack_require__("GX0O");
-
-// EXTERNAL MODULE: ./node_modules/next/dist/build/webpack/loaders/next-plugin-loader.js?middleware=on-error-server
-var next_plugin_loadermiddleware_on_error_server = __webpack_require__("KqAr");
-
-// EXTERNAL MODULE: ./.next/build-manifest.json
-var build_manifest = __webpack_require__("LZ9C");
-
-// EXTERNAL MODULE: ./.next/react-loadable-manifest.json
-var react_loadable_manifest = __webpack_require__("67Bq");
-
-// EXTERNAL MODULE: ./node_modules/next/dist/pages/_document.js
-var _document = __webpack_require__("VDXt");
-var _document_default = /*#__PURE__*/__webpack_require__.n(_document);
-
-// EXTERNAL MODULE: ./node_modules/next/dist/pages/_error.js
-var _error = __webpack_require__("/a9y");
-var _error_default = /*#__PURE__*/__webpack_require__.n(_error);
-
-// EXTERNAL MODULE: ./src/pages/_app.tsx
-var _app = __webpack_require__("hUgY");
-
-// EXTERNAL MODULE: ./node_modules/react/index.js
-var react = __webpack_require__("q1tI");
-var react_default = /*#__PURE__*/__webpack_require__.n(react);
-
-// EXTERNAL MODULE: ./lib/auth0.js
-var auth0 = __webpack_require__("2NqA");
-
-// EXTERNAL MODULE: ./src/components/index.tsx + 6 modules
-var components = __webpack_require__("7cJT");
-
-// EXTERNAL MODULE: ./src/context/index.tsx + 2 modules
-var context = __webpack_require__("2ZRA");
-
-// CONCATENATED MODULE: ./src/pages/app.tsx
-var __jsx = react_default.a.createElement;
-
-
-
-
-
-const App = ({
-  user
-}) => {
-  const {
-    updateUserStatus
-  } = react_default.a.useContext(context["c" /* UserContext */]);
-  react_default.a.useEffect(() => {
-    if (user === null) {
-      return null;
-    }
-
-    updateUserStatus(true);
-  }, []);
-  return __jsx(context["b" /* ShoppingItemProvider */], null, __jsx(components["c" /* Layout */], null, __jsx("div", {
-    className: "container ph4 sans-serif"
-  }, __jsx("section", {
-    role: "section",
-    className: "br4 pa3 shadow-5"
-  }, __jsx(components["a" /* ItemForm */], null), __jsx(components["b" /* ItemList */], null)))));
-};
-
-App.getInitialProps = async ({
-  req,
-  res
-}) => {
-  return auth0["a" /* default */].getSession(req).then(data => {
-    if (data === null) {
-      res.writeHead(302, {
-        Location: '/api/auth/login'
-      });
-      res.end();
-      return;
-    }
-
-    return data;
-  });
-};
-
-/* harmony default export */ var app = (App);
-// CONCATENATED MODULE: ./node_modules/next/dist/build/webpack/loaders/next-serverless-loader.js?page=%2Fapp&absolutePagePath=private-next-pages%2Fapp.tsx&absoluteAppPath=private-next-pages%2F_app.tsx&absoluteDocumentPath=next%2Fdist%2Fpages%2F_document&absoluteErrorPath=next%2Fdist%2Fpages%2F_error&distDir=private-dot-next&buildId=7Od8y9Dx8r8GwZLpK1-zE&assetPrefix=&generateEtags=true&ampBindInitData=false&canonicalBase=
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unstable_getStaticProps", function() { return unstable_getStaticProps; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "config", function() { return config; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_app", function() { return next_serverless_loaderpage_2Fapp_absolutePagePath_private_next_pages_2Fapp_tsx_absoluteAppPath_private_next_pages_2F_app_tsx_absoluteDocumentPath_next_2Fdist_2Fpages_2F_document_absoluteErrorPath_next_2Fdist_2Fpages_2F_error_distDir_private_dot_next_buildId_7Od8y9Dx8r8GwZLpK1_zE_assetPrefix_generateEtags_true_ampBindInitData_false_canonicalBase_app; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderReqToHTML", function() { return renderReqToHTML; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return next_serverless_loaderpage_2Fapp_absolutePagePath_private_next_pages_2Fapp_tsx_absoluteAppPath_private_next_pages_2F_app_tsx_absoluteDocumentPath_next_2Fdist_2Fpages_2F_document_absoluteErrorPath_next_2Fdist_2Fpages_2F_error_distDir_private_dot_next_buildId_7Od8y9Dx8r8GwZLpK1_zE_assetPrefix_generateEtags_true_ampBindInitData_false_canonicalBase_render; });
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    const Component = app
-    /* harmony default export */ var next_serverless_loaderpage_2Fapp_absolutePagePath_private_next_pages_2Fapp_tsx_absoluteAppPath_private_next_pages_2F_app_tsx_absoluteDocumentPath_next_2Fdist_2Fpages_2F_document_absoluteErrorPath_next_2Fdist_2Fpages_2F_error_distDir_private_dot_next_buildId_7Od8y9Dx8r8GwZLpK1_zE_assetPrefix_generateEtags_true_ampBindInitData_false_canonicalBase_ = __webpack_exports__["default"] = (Component);
-    const unstable_getStaticProps = app_namespaceObject['unstable_getStaticProp' + 's']
-    
-    const config = app_namespaceObject['confi' + 'g'] || {}
-    const next_serverless_loaderpage_2Fapp_absolutePagePath_private_next_pages_2Fapp_tsx_absoluteAppPath_private_next_pages_2F_app_tsx_absoluteDocumentPath_next_2Fdist_2Fpages_2F_document_absoluteErrorPath_next_2Fdist_2Fpages_2F_error_distDir_private_dot_next_buildId_7Od8y9Dx8r8GwZLpK1_zE_assetPrefix_generateEtags_true_ampBindInitData_false_canonicalBase_app = _app["a" /* default */]
-    async function renderReqToHTML(req, res, fromExport) {
-      const options = {
-        App: _app["a" /* default */],
-        Document: _document_default.a,
-        buildManifest: build_manifest,
-        unstable_getStaticProps,
-        reactLoadableManifest: react_loadable_manifest,
-        canonicalBase: "",
-        buildId: "7Od8y9Dx8r8GwZLpK1-zE",
-        assetPrefix: "",
-        ampBindInitData: false,
-      }
-      let sprData = false
-
-      if (req.url.match(/_next\/data/)) {
-        sprData = true
-        req.url = req.url
-          .replace(new RegExp('/_next/data/7Od8y9Dx8r8GwZLpK1\-zE/'), '/')
-          .replace(/\.json$/, '')
-      }
-      const parsedUrl = Object(external_url_["parse"])(req.url, true)
-      const renderOpts = Object.assign(
-        {
-          Component,
-          pageConfig: config,
-          dataOnly: req.headers && (req.headers.accept || '').indexOf('application/amp.bind+json') !== -1,
-          nextExport: fromExport
-        },
-        options,
-      )
-      try {
-        
-        const params = {};
-        const nowParams = null;
-        let result = await Object(render["renderToHTML"])(req, res, "/app", Object.assign({}, unstable_getStaticProps ? {} : parsedUrl.query, nowParams ? nowParams : params, sprData ? { _nextSprData: '1' } : {}), renderOpts)
-
-        if (sprData && !fromExport) {
-          const payload = JSON.stringify(renderOpts.sprData)
-          res.setHeader('Content-Type', 'application/json')
-          res.setHeader('Content-Length', Buffer.byteLength(payload))
-          res.setHeader(
-            'Cache-Control',
-            `s-maxage=${renderOpts.revalidate}, stale-while-revalidate`
-          )
-          res.end(payload)
-          return null
-        }
-
-        if (fromExport) return { html: result, renderOpts }
-        return result
-      } catch (err) {
-        if (err.code === 'ENOENT') {
-          res.statusCode = 404
-          const result = await Object(render["renderToHTML"])(req, res, "/_error", parsedUrl.query, Object.assign({}, options, {
-            Component: _error_default.a
-          }))
-          return result
-        } else {
-          console.error(err)
-          res.statusCode = 500
-          const result = await Object(render["renderToHTML"])(req, res, "/_error", parsedUrl.query, Object.assign({}, options, {
-            Component: _error_default.a,
-            err
-          }))
-          return result
-        }
-      }
-    }
-    async function next_serverless_loaderpage_2Fapp_absolutePagePath_private_next_pages_2Fapp_tsx_absoluteAppPath_private_next_pages_2F_app_tsx_absoluteDocumentPath_next_2Fdist_2Fpages_2F_document_absoluteErrorPath_next_2Fdist_2Fpages_2F_error_distDir_private_dot_next_buildId_7Od8y9Dx8r8GwZLpK1_zE_assetPrefix_generateEtags_true_ampBindInitData_false_canonicalBase_render (req, res) {
-      try {
-        await Object(next_plugin_loadermiddleware_on_init_server["default"])()
-        const html = await renderReqToHTML(req, res)
-        if (html) {
-          Object(send_html["sendHTML"])(req, res, html, {generateEtags: true})
-        }
-      } catch(err) {
-        await Object(next_plugin_loadermiddleware_on_error_server["default"])(err)
-        console.error(err)
-        res.statusCode = 500
-        res.end('Internal Server Error')
-      }
-    }
-  
 
 /***/ }),
 
@@ -55422,6 +55207,221 @@ module.exports = {
   trim: trim
 };
 
+
+/***/ }),
+
+/***/ "xVVR":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var app_namespaceObject = {};
+__webpack_require__.r(app_namespaceObject);
+__webpack_require__.d(app_namespaceObject, "default", function() { return app; });
+
+// EXTERNAL MODULE: external "url"
+var external_url_ = __webpack_require__("bzos");
+
+// EXTERNAL MODULE: external "querystring"
+var external_querystring_ = __webpack_require__("8xkj");
+
+// EXTERNAL MODULE: ./node_modules/next/dist/next-server/server/render.js
+var render = __webpack_require__("/bjS");
+
+// EXTERNAL MODULE: ./node_modules/next/dist/next-server/server/send-html.js
+var send_html = __webpack_require__("LuNM");
+
+// EXTERNAL MODULE: ./node_modules/next/dist/build/webpack/loaders/next-plugin-loader.js?middleware=on-init-server
+var next_plugin_loadermiddleware_on_init_server = __webpack_require__("GX0O");
+
+// EXTERNAL MODULE: ./node_modules/next/dist/build/webpack/loaders/next-plugin-loader.js?middleware=on-error-server
+var next_plugin_loadermiddleware_on_error_server = __webpack_require__("KqAr");
+
+// EXTERNAL MODULE: ./.next/build-manifest.json
+var build_manifest = __webpack_require__("LZ9C");
+
+// EXTERNAL MODULE: ./.next/react-loadable-manifest.json
+var react_loadable_manifest = __webpack_require__("67Bq");
+
+// EXTERNAL MODULE: ./node_modules/next/dist/pages/_document.js
+var _document = __webpack_require__("VDXt");
+var _document_default = /*#__PURE__*/__webpack_require__.n(_document);
+
+// EXTERNAL MODULE: ./node_modules/next/dist/pages/_error.js
+var _error = __webpack_require__("/a9y");
+var _error_default = /*#__PURE__*/__webpack_require__.n(_error);
+
+// EXTERNAL MODULE: ./src/pages/_app.tsx
+var _app = __webpack_require__("hUgY");
+
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__("q1tI");
+var react_default = /*#__PURE__*/__webpack_require__.n(react);
+
+// EXTERNAL MODULE: ./lib/auth0.js
+var auth0 = __webpack_require__("2NqA");
+
+// EXTERNAL MODULE: ./src/components/index.tsx + 6 modules
+var components = __webpack_require__("7cJT");
+
+// EXTERNAL MODULE: ./src/context/index.tsx + 2 modules
+var context = __webpack_require__("2ZRA");
+
+// CONCATENATED MODULE: ./src/pages/app.tsx
+var __jsx = react_default.a.createElement;
+
+
+
+
+
+const App = ({
+  user
+}) => {
+  const {
+    updateUserStatus
+  } = react_default.a.useContext(context["c" /* UserContext */]);
+  react_default.a.useEffect(() => {
+    if (user === null) {
+      return null;
+    }
+
+    updateUserStatus(true);
+  }, []);
+  return __jsx(context["b" /* ShoppingItemProvider */], null, __jsx(components["c" /* Layout */], null, __jsx("div", {
+    className: "container ph4 sans-serif"
+  }, __jsx("section", {
+    role: "section",
+    className: "br4 pa3 shadow-5"
+  }, __jsx(components["a" /* ItemForm */], null), __jsx(components["b" /* ItemList */], null)))));
+};
+
+App.getInitialProps = async ({
+  req,
+  res
+}) => {
+  return auth0["a" /* default */].getSession(req).then(data => {
+    if (data === null) {
+      res.writeHead(302, {
+        Location: '/api/auth/login'
+      });
+      res.end();
+      return;
+    }
+
+    return data;
+  });
+};
+
+/* harmony default export */ var app = (App);
+// CONCATENATED MODULE: ./node_modules/next/dist/build/webpack/loaders/next-serverless-loader.js?page=%2Fapp&absolutePagePath=private-next-pages%2Fapp.tsx&absoluteAppPath=private-next-pages%2F_app.tsx&absoluteDocumentPath=next%2Fdist%2Fpages%2F_document&absoluteErrorPath=next%2Fdist%2Fpages%2F_error&distDir=private-dot-next&buildId=92vitlR115EVFDqgRnsC6&assetPrefix=&generateEtags=true&ampBindInitData=false&canonicalBase=
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unstable_getStaticProps", function() { return unstable_getStaticProps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "config", function() { return config; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_app", function() { return next_serverless_loaderpage_2Fapp_absolutePagePath_private_next_pages_2Fapp_tsx_absoluteAppPath_private_next_pages_2F_app_tsx_absoluteDocumentPath_next_2Fdist_2Fpages_2F_document_absoluteErrorPath_next_2Fdist_2Fpages_2F_error_distDir_private_dot_next_buildId_92vitlR115EVFDqgRnsC6_assetPrefix_generateEtags_true_ampBindInitData_false_canonicalBase_app; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderReqToHTML", function() { return renderReqToHTML; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return next_serverless_loaderpage_2Fapp_absolutePagePath_private_next_pages_2Fapp_tsx_absoluteAppPath_private_next_pages_2F_app_tsx_absoluteDocumentPath_next_2Fdist_2Fpages_2F_document_absoluteErrorPath_next_2Fdist_2Fpages_2F_error_distDir_private_dot_next_buildId_92vitlR115EVFDqgRnsC6_assetPrefix_generateEtags_true_ampBindInitData_false_canonicalBase_render; });
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    const Component = app
+    /* harmony default export */ var next_serverless_loaderpage_2Fapp_absolutePagePath_private_next_pages_2Fapp_tsx_absoluteAppPath_private_next_pages_2F_app_tsx_absoluteDocumentPath_next_2Fdist_2Fpages_2F_document_absoluteErrorPath_next_2Fdist_2Fpages_2F_error_distDir_private_dot_next_buildId_92vitlR115EVFDqgRnsC6_assetPrefix_generateEtags_true_ampBindInitData_false_canonicalBase_ = __webpack_exports__["default"] = (Component);
+    const unstable_getStaticProps = app_namespaceObject['unstable_getStaticProp' + 's']
+    
+    const config = app_namespaceObject['confi' + 'g'] || {}
+    const next_serverless_loaderpage_2Fapp_absolutePagePath_private_next_pages_2Fapp_tsx_absoluteAppPath_private_next_pages_2F_app_tsx_absoluteDocumentPath_next_2Fdist_2Fpages_2F_document_absoluteErrorPath_next_2Fdist_2Fpages_2F_error_distDir_private_dot_next_buildId_92vitlR115EVFDqgRnsC6_assetPrefix_generateEtags_true_ampBindInitData_false_canonicalBase_app = _app["a" /* default */]
+    async function renderReqToHTML(req, res, fromExport) {
+      const options = {
+        App: _app["a" /* default */],
+        Document: _document_default.a,
+        buildManifest: build_manifest,
+        unstable_getStaticProps,
+        reactLoadableManifest: react_loadable_manifest,
+        canonicalBase: "",
+        buildId: "92vitlR115EVFDqgRnsC6",
+        assetPrefix: "",
+        ampBindInitData: false,
+      }
+      let sprData = false
+
+      if (req.url.match(/_next\/data/)) {
+        sprData = true
+        req.url = req.url
+          .replace(new RegExp('/_next/data/92vitlR115EVFDqgRnsC6/'), '/')
+          .replace(/\.json$/, '')
+      }
+      const parsedUrl = Object(external_url_["parse"])(req.url, true)
+      const renderOpts = Object.assign(
+        {
+          Component,
+          pageConfig: config,
+          dataOnly: req.headers && (req.headers.accept || '').indexOf('application/amp.bind+json') !== -1,
+          nextExport: fromExport
+        },
+        options,
+      )
+      try {
+        
+        const params = {};
+        const nowParams = null;
+        let result = await Object(render["renderToHTML"])(req, res, "/app", Object.assign({}, unstable_getStaticProps ? {} : parsedUrl.query, nowParams ? nowParams : params, sprData ? { _nextSprData: '1' } : {}), renderOpts)
+
+        if (sprData && !fromExport) {
+          const payload = JSON.stringify(renderOpts.sprData)
+          res.setHeader('Content-Type', 'application/json')
+          res.setHeader('Content-Length', Buffer.byteLength(payload))
+          res.setHeader(
+            'Cache-Control',
+            `s-maxage=${renderOpts.revalidate}, stale-while-revalidate`
+          )
+          res.end(payload)
+          return null
+        }
+
+        if (fromExport) return { html: result, renderOpts }
+        return result
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          res.statusCode = 404
+          const result = await Object(render["renderToHTML"])(req, res, "/_error", parsedUrl.query, Object.assign({}, options, {
+            Component: _error_default.a
+          }))
+          return result
+        } else {
+          console.error(err)
+          res.statusCode = 500
+          const result = await Object(render["renderToHTML"])(req, res, "/_error", parsedUrl.query, Object.assign({}, options, {
+            Component: _error_default.a,
+            err
+          }))
+          return result
+        }
+      }
+    }
+    async function next_serverless_loaderpage_2Fapp_absolutePagePath_private_next_pages_2Fapp_tsx_absoluteAppPath_private_next_pages_2F_app_tsx_absoluteDocumentPath_next_2Fdist_2Fpages_2F_document_absoluteErrorPath_next_2Fdist_2Fpages_2F_error_distDir_private_dot_next_buildId_92vitlR115EVFDqgRnsC6_assetPrefix_generateEtags_true_ampBindInitData_false_canonicalBase_render (req, res) {
+      try {
+        await Object(next_plugin_loadermiddleware_on_init_server["default"])()
+        const html = await renderReqToHTML(req, res)
+        if (html) {
+          Object(send_html["sendHTML"])(req, res, html, {generateEtags: true})
+        }
+      } catch(err) {
+        await Object(next_plugin_loadermiddleware_on_error_server["default"])(err)
+        console.error(err)
+        res.statusCode = 500
+        res.end('Internal Server Error')
+      }
+    }
+  
 
 /***/ }),
 
