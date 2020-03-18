@@ -1,9 +1,9 @@
 {
-  "name": "nf7laf-1wb6w4c",
-  "arn": "arn:aws:iam::280138148799:role/nf7laf-1wb6w4c",
+  "name": "9w8r5us-26z4b9",
+  "arn": "arn:aws:iam::280138148799:role/9w8r5us-26z4b9",
   "service": [
-    "lambda.amazonaws.com",
-    "edgelambda.amazonaws.com"
+    "edgelambda.amazonaws.com",
+    "lambda.amazonaws.com"
   ],
   "policy": {
     "arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"

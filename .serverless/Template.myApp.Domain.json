@@ -5,8 +5,8 @@
   "subdomains": [
     {
       "domain": "www.shopping-list-app.com",
-      "distributionId": "E16IYDLWR6I3PZ",
-      "url": "https://duuile2k1hf51.cloudfront.net",
+      "distributionId": "E2AEZD5TVBDC5Z",
+      "url": "https://dqojdaazwqdgf.cloudfront.net",
       "type": "awsCloudFront"
     }
   ]

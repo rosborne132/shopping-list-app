@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "BO/6");
+/******/ 	return __webpack_require__(__webpack_require__.s = "QAX0");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -248,8 +248,20 @@ const oidc_client_1 = tslib_1.__importDefault(__webpack_require__("O3E8"));
 const cookie_store_1 = tslib_1.__importDefault(__webpack_require__("qQzh"));
 const settings_1 = tslib_1.__importDefault(__webpack_require__("Mu3n"));
 function createInstance(settings) {
+    if (!settings.domain) {
+        throw new Error('A valid Auth0 Domain must be provided');
+    }
+    if (!settings.clientId) {
+        throw new Error('A valid Auth0 Client ID must be provided');
+    }
+    if (!settings.clientSecret) {
+        throw new Error('A valid Auth0 Client Secret must be provided');
+    }
     if (!settings.session) {
         throw new Error('The session configuration is required');
+    }
+    if (!settings.session.cookieSecret) {
+        throw new Error('A valid session cookie secret is required');
     }
     const clientProvider = oidc_client_1.default(settings);
     const sessionSettings = new settings_1.default(settings.session);
@@ -258,9 +270,10 @@ function createInstance(settings) {
         handleLogin: handlers_1.default.LoginHandler(settings, clientProvider),
         handleLogout: handlers_1.default.LogoutHandler(settings, sessionSettings),
         handleCallback: handlers_1.default.CallbackHandler(settings, clientProvider, store),
-        handleProfile: handlers_1.default.ProfileHandler(store),
+        handleProfile: handlers_1.default.ProfileHandler(store, clientProvider),
         getSession: handlers_1.default.SessionHandler(store),
-        requireAuthentication: handlers_1.default.RequireAuthentication(store)
+        requireAuthentication: handlers_1.default.RequireAuthentication(store),
+        tokenCache: handlers_1.default.TokenCache(clientProvider, store)
     };
 }
 exports.default = createInstance;
@@ -1724,6 +1737,30 @@ module.exports = stackSet;
 
 /***/ }),
 
+/***/ "0Kms":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__("zOht");
+const session_token_cache_1 = tslib_1.__importDefault(__webpack_require__("zgCa"));
+function tokenCacheHandler(clientProvider, sessionStore) {
+    return (req, res) => {
+        if (!req) {
+            throw new Error('Request is not available');
+        }
+        if (!res) {
+            throw new Error('Response is not available');
+        }
+        return new session_token_cache_1.default(sessionStore, clientProvider, req, res);
+    };
+}
+exports.default = tokenCacheHandler;
+//# sourceMappingURL=token-cache.js.map
+
+/***/ }),
+
 /***/ "0pkK":
 /***/ (function(module, exports) {
 
@@ -2515,15 +2552,17 @@ function telemetry() {
         .replace(/=+$/, '');
 }
 function loginHandler(settings, clientProvider) {
-    return (req, res, options = {}) => tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return (req, res, options) => tslib_1.__awaiter(this, void 0, void 0, function* () {
+        if (!req) {
+            throw new Error('Request is not available');
+        }
         if (!res) {
             throw new Error('Response is not available');
         }
-        // Generate the state
-        const state = base64url_1.default(crypto_1.randomBytes(48));
+        const opt = options || {};
+        const _a = (opt && opt.authParams) || {}, { state = base64url_1.default(crypto_1.randomBytes(48)) } = _a, authParams = tslib_1.__rest(_a, ["state"]);
         // Create the authorization url.
         const client = yield clientProvider();
-        const authParams = (options && options.authParams) || {};
         const authorizationUrl = client.authorizationUrl(Object.assign({ redirect_uri: settings.redirectUri, scope: settings.scope, response_type: 'code', audience: settings.audience, state, auth0Client: telemetry() }, authParams));
         // Set the necessary cookies
         cookies_1.setCookies(req, res, [
@@ -2846,8 +2885,9 @@ module.exports.TimeoutError = TimeoutError;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__("zOht");
-function profileHandler(sessionStore) {
-    return (req, res) => tslib_1.__awaiter(this, void 0, void 0, function* () {
+const token_cache_1 = tslib_1.__importDefault(__webpack_require__("0Kms"));
+function profileHandler(sessionStore, clientProvider) {
+    return (req, res, options) => tslib_1.__awaiter(this, void 0, void 0, function* () {
         if (!req) {
             throw new Error('Request is not available');
         }
@@ -2860,6 +2900,19 @@ function profileHandler(sessionStore) {
                 error: 'not_authenticated',
                 description: 'The user does not have an active session or is not authenticated'
             });
+            return;
+        }
+        if (options && options.refetch) {
+            const tokenCache = token_cache_1.default(clientProvider, sessionStore)(req, res);
+            const { accessToken } = yield tokenCache.getAccessToken();
+            if (!accessToken) {
+                throw new Error('No access token available to refetch the profile');
+            }
+            const client = yield clientProvider();
+            const userInfo = yield client.userinfo(accessToken);
+            const updatedUser = Object.assign(Object.assign({}, session.user), userInfo);
+            yield sessionStore.save(req, res, Object.assign(Object.assign({}, session), { user: updatedUser }));
+            res.json(updatedUser);
             return;
         }
         res.json(session.user);
@@ -2880,14 +2933,14 @@ exports.default = profileHandler;
 /* harmony default export */ __webpack_exports__["a"] = (Object(_auth0_nextjs_auth0__WEBPACK_IMPORTED_MODULE_0__["initAuth0"])({
   clientId: "pd7pNi0CFbkPtmuZof0tg7HNcb2uoY53",
   clientSecret: "bTsCl2WWhXY7bLlEVs3kQL9a_4vzs3MHcV3EIILcC-5rnyPNHtz1yTpLManmIOBo",
-  scope: "openid profile",
   domain: "osborne-dev.auth0.com",
   redirectUri: "https://www.shopping-list-app.com/api/auth/callback",
   scope: 'openid profile',
-  postLogoutRedirectUri: "https://www.shopping-list-app.com/",
+  postLogoutRedirectUri: "https://www.shopping-list-app.com",
   session: {
     cookieSecret: "viloxyf_z2GW6K4CT-KQD_MoLEA2wqv5jWuq4Jd0P7ymgG5GJGMpvMneXZzhK3sL",
-    cookieLifetime: 7200
+    cookieLifetime: 60 * 60 * 8,
+    cookieDomain: 'https://www.shopping-list-app.com/'
   }
 }));
 
@@ -4273,6 +4326,7 @@ module.exports = shake256;
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__("zOht");
 const cookies_1 = __webpack_require__("gKi1");
+const session_1 = tslib_1.__importDefault(__webpack_require__("dKo8"));
 function callbackHandler(settings, clientProvider, sessionStore) {
     return (req, res, options) => tslib_1.__awaiter(this, void 0, void 0, function* () {
         if (!res) {
@@ -4295,27 +4349,7 @@ function callbackHandler(settings, clientProvider, sessionStore) {
             state
         });
         // Get the claims without any OIDC specific claim.
-        const claims = tokenSet.claims();
-        if (claims.aud) {
-            delete claims.aud;
-        }
-        if (claims.exp) {
-            delete claims.exp;
-        }
-        if (claims.iat) {
-            delete claims.iat;
-        }
-        if (claims.iss) {
-            delete claims.iss;
-        }
-        // Create the session.
-        const session = {
-            user: Object.assign({}, claims),
-            idToken: tokenSet.id_token,
-            accessToken: tokenSet.access_token,
-            refreshToken: tokenSet.refresh_token,
-            createdAt: Date.now()
-        };
+        const session = session_1.default(tokenSet);
         // Create the session.
         yield sessionStore.save(req, res, session);
         // Redirect to the homepage.
@@ -4460,6 +4494,9 @@ function createDummyBrowserInstance() {
         },
         requireAuthentication: () => () => {
             throw new Error('The requireAuthentication method can only be used from the server side');
+        },
+        tokenCache: () => {
+            throw new Error('The tokenCache method can only be used from the server side');
         }
     };
 }
@@ -7310,41 +7347,6 @@ module.exports = (JWA, JWK) => {
   })
 }
 
-
-/***/ }),
-
-/***/ "BO/6":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("bzos");
-/* harmony import */ var url__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(url__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("PCLx");
-/* harmony import */ var next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("GX0O");
-/* harmony import */ var next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("KqAr");
-
-    
-      
-      
-      
-      
-
-      /* harmony default export */ __webpack_exports__["default"] = (async (req, res) => {
-        try {
-          await Object(next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_2__["default"])()
-          const params = {}
-          const resolver = __webpack_require__("JVI5")
-          Object(next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__["apiResolver"])(req, res, params, resolver, next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__["default"])
-        } catch (err) {
-          console.error(err)
-          await Object(next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__["default"])(err)
-          res.statusCode = 500
-          res.end('Internal Server Error')
-        }
-      });
-    
 
 /***/ }),
 
@@ -10322,7 +10324,7 @@ module.exports = (issuer, aadIssValidation = false) => class Client extends Base
    * @name constructor
    * @api public
    */
-  constructor(metadata = {}, jwks) {
+  constructor(metadata = {}, jwks, options) {
     super();
 
     if (typeof metadata.client_id !== 'string' || !metadata.client_id) {
@@ -10353,6 +10355,10 @@ module.exports = (issuer, aadIssValidation = false) => class Client extends Base
     if (jwks !== undefined) {
       const keystore = getKeystore.call(this, jwks);
       instance(this).set('keystore', keystore);
+    }
+
+    if (options !== undefined) {
+      instance(this).set('options', options);
     }
 
     this[CLOCK_TOLERANCE] = 0;
@@ -11028,11 +11034,23 @@ module.exports = (issuer, aadIssValidation = false) => class Client extends Base
       }
     }
 
-    if (payload.azp !== undefined && payload.azp !== this.client_id) {
-      throw new RPError({
-        printf: ['azp must be the client_id, expected %s, got: %s', this.client_id, payload.azp],
-        jwt,
-      });
+    if (payload.azp !== undefined) {
+      let { additionalAuthorizedParties } = instance(this).get('options') || {};
+
+      if (typeof additionalAuthorizedParties === 'string') {
+        additionalAuthorizedParties = [this.client_id, additionalAuthorizedParties];
+      } else if (Array.isArray(additionalAuthorizedParties)) {
+        additionalAuthorizedParties = [this.client_id, ...additionalAuthorizedParties];
+      } else {
+        additionalAuthorizedParties = [this.client_id];
+      }
+
+      if (!additionalAuthorizedParties.includes(payload.azp)) {
+        throw new RPError({
+          printf: ['azp mismatch, got: %s', payload.azp],
+          jwt,
+        });
+      }
     }
 
     let key;
@@ -11514,12 +11532,14 @@ module.exports = (issuer, aadIssValidation = false) => class Client extends Base
    * @name register
    * @api public
    */
-  static async register(properties, { initialAccessToken, jwks } = {}) {
+  static async register(metadata, options = {}) {
+    const { initialAccessToken, jwks, ...clientOptions } = options;
+
     assertIssuerConfiguration(this.issuer, 'registration_endpoint');
 
-    if (jwks !== undefined && !(properties.jwks || properties.jwks_uri)) {
+    if (jwks !== undefined && !(metadata.jwks || metadata.jwks_uri)) {
       const keystore = getKeystore.call(this, jwks);
-      properties.jwks = keystore.toJWKS(false);
+      metadata.jwks = keystore.toJWKS(false);
     }
 
     const response = await request.call(this, {
@@ -11527,13 +11547,13 @@ module.exports = (issuer, aadIssValidation = false) => class Client extends Base
         Authorization: authorizationHeaderValue(initialAccessToken),
       } : undefined,
       json: true,
-      body: properties,
+      body: metadata,
       url: this.issuer.registration_endpoint,
       method: 'POST',
     });
     const responseBody = processResponse(response, { statusCode: 201, bearer: true });
 
-    return new this(responseBody, jwks);
+    return new this(responseBody, jwks, clientOptions);
   }
 
   /**
@@ -11552,7 +11572,7 @@ module.exports = (issuer, aadIssValidation = false) => class Client extends Base
    * @name fromUri
    * @api public
    */
-  static async fromUri(registrationClientUri, registrationAccessToken, jwks) {
+  static async fromUri(registrationClientUri, registrationAccessToken, jwks, clientOptions) {
     const response = await request.call(this, {
       method: 'GET',
       url: registrationClientUri,
@@ -11561,7 +11581,7 @@ module.exports = (issuer, aadIssValidation = false) => class Client extends Base
     });
     const responseBody = processResponse(response, { bearer: true });
 
-    return new this(responseBody, jwks);
+    return new this(responseBody, jwks, clientOptions);
   }
 
   /**
@@ -13496,6 +13516,11 @@ class CookieSessionStoreSettings {
         if (!this.cookieName || !this.cookieName.length) {
             throw new Error('The cookieName setting is empty or null');
         }
+        this.cookieSameSite = settings.cookieSameSite;
+        if (this.cookieSameSite === undefined) {
+            this.cookieSameSite = 'lax';
+        }
+        this.cookieDomain = settings.cookieDomain || '';
         this.cookieLifetime = settings.cookieLifetime || 60 * 60 * 8;
         this.cookiePath = settings.cookiePath || '/';
         if (!this.cookiePath || !this.cookiePath.length) {
@@ -14009,6 +14034,28 @@ module.exports = __webpack_require__("jmDH") ? function (object, key, value) {
 
 /***/ }),
 
+/***/ "Ni7F":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class AccessTokenError extends Error {
+    constructor(code, message) {
+        super(message);
+        // Saving class name in the property of our custom error as a shortcut.
+        this.name = this.constructor.name;
+        // Capturing stack trace, excluding constructor call from it.
+        Error.captureStackTrace(this, this.constructor);
+        // Machine readable code.
+        this.code = code;
+    }
+}
+exports.default = AccessTokenError;
+//# sourceMappingURL=access-token-error.js.map
+
+/***/ }),
+
 /***/ "NkYg":
 /***/ (function(module, exports) {
 
@@ -14022,7 +14069,7 @@ module.exports = require("buffer");
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = '0.4.0';
+exports.default = '0.10.0';
 //# sourceMappingURL=version.js.map
 
 /***/ }),
@@ -14776,13 +14823,15 @@ const callback_1 = tslib_1.__importDefault(__webpack_require__("5sNo"));
 const profile_1 = tslib_1.__importDefault(__webpack_require__("2KX+"));
 const session_1 = tslib_1.__importDefault(__webpack_require__("J0Hf"));
 const require_authentication_1 = tslib_1.__importDefault(__webpack_require__("9YuQ"));
+const token_cache_1 = tslib_1.__importDefault(__webpack_require__("0Kms"));
 exports.default = {
     CallbackHandler: callback_1.default,
     LoginHandler: login_1.default,
     LogoutHandler: logout_1.default,
     ProfileHandler: profile_1.default,
     SessionHandler: session_1.default,
-    RequireAuthentication: require_authentication_1.default
+    RequireAuthentication: require_authentication_1.default,
+    TokenCache: token_cache_1.default
 };
 //# sourceMappingURL=index.js.map
 
@@ -15244,6 +15293,37 @@ module.exports = {
 
 /***/ }),
 
+/***/ "PTLu":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function intersect(a, b) {
+    const set1 = new Set(a);
+    const set2 = new Set(b);
+    return new Set([...set1].filter(x => set2.has(x)));
+}
+exports.intersect = intersect;
+function match(arr1, arr2) {
+    const set1 = new Set(arr1);
+    const set2 = new Set(arr2);
+    if (set1.size !== set2.size) {
+        return false;
+    }
+    for (let i = 0; i < arr1.length; i += 1) {
+        const item = arr1[i];
+        if (!set2.has(item)) {
+            return false;
+        }
+    }
+    return true;
+}
+exports.match = match;
+//# sourceMappingURL=array.js.map
+
+/***/ }),
+
 /***/ "PbSP":
 /***/ (function(module, exports) {
 
@@ -15317,6 +15397,41 @@ function copyArray(source, array) {
 
 module.exports = copyArray;
 
+
+/***/ }),
+
+/***/ "QAX0":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("bzos");
+/* harmony import */ var url__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(url__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("PCLx");
+/* harmony import */ var next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("GX0O");
+/* harmony import */ var next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("KqAr");
+
+    
+      
+      
+      
+      
+
+      /* harmony default export */ __webpack_exports__["default"] = (async (req, res) => {
+        try {
+          await Object(next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_2__["default"])()
+          const params = {}
+          const resolver = __webpack_require__("JVI5")
+          Object(next_dist_next_server_server_api_utils__WEBPACK_IMPORTED_MODULE_1__["apiResolver"])(req, res, params, resolver, next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__["default"])
+        } catch (err) {
+          console.error(err)
+          await Object(next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_3__["default"])(err)
+          res.statusCode = 500
+          res.end('Internal Server Error')
+        }
+      });
+    
 
 /***/ }),
 
@@ -21364,6 +21479,43 @@ module.exports = baseIsTypedArray;
 
 /***/ }),
 
+/***/ "dKo8":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function getSessionFromTokenSet(tokenSet) {
+    // Get the claims without any OIDC specific claim.
+    const claims = tokenSet.claims();
+    if (claims.aud) {
+        delete claims.aud;
+    }
+    if (claims.exp) {
+        delete claims.exp;
+    }
+    if (claims.iat) {
+        delete claims.iat;
+    }
+    if (claims.iss) {
+        delete claims.iss;
+    }
+    // Create the session.
+    return {
+        user: Object.assign({}, claims),
+        idToken: tokenSet.id_token,
+        accessToken: tokenSet.access_token,
+        accessTokenScope: tokenSet.scope,
+        accessTokenExpiresAt: tokenSet.expires_at,
+        refreshToken: tokenSet.refresh_token,
+        createdAt: Date.now()
+    };
+}
+exports.default = getSessionFromTokenSet;
+//# sourceMappingURL=session.js.map
+
+/***/ }),
+
 /***/ "dTAl":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23222,7 +23374,9 @@ function serializeCookie(cookie, secure) {
         expires: new Date(Date.now() + cookie.maxAge * 1000),
         httpOnly: true,
         secure,
-        path: cookie.path
+        path: cookie.path,
+        domain: cookie.domain,
+        sameSite: cookie.sameSite
     });
 }
 /**
@@ -23230,7 +23384,7 @@ function serializeCookie(cookie, secure) {
  * @param res The HTTP response on which the cookie will be set.
  */
 function setCookies(req, res, cookies) {
-    res.setHeader('Set-Cookie', cookies.map((c) => serializeCookie(c, isSecureEnvironment(req))));
+    res.setHeader('Set-Cookie', cookies.map(c => serializeCookie(c, isSecureEnvironment(req))));
 }
 exports.setCookies = setCookies;
 /**
@@ -24365,29 +24519,40 @@ module.exports = function (promise) {
 const AggregateError = __webpack_require__("xh2E");
 const PCancelable = __webpack_require__("ijcl");
 
-const pSome = (iterable, options) => new PCancelable((resolve, reject, onCancel) => {
-	options = {
-		filter: () => true,
-		...options
-	};
+class FilterError extends Error { }
 
-	if (!Number.isFinite(options.count)) {
-		throw new TypeError(`Expected a finite number, got ${typeof options.count}`);
+const pSome = (iterable, options) => new PCancelable((resolve, reject, onCancel) => {
+	const {
+		count,
+		filter = () => true
+	} = options;
+
+	if (!Number.isFinite(count)) {
+		reject(new TypeError(`Expected a finite number, got ${typeof options.count}`));
+		return;
 	}
 
 	const values = [];
 	const errors = [];
 	let elementCount = 0;
-	let maxErrors = -options.count + 1;
-	let maxFiltered = -options.count + 1;
-	let isDone = false;
+	let isSettled = false;
 
 	const completed = new Set();
-	const cancelPendingIfDone = () => {
-		if (!isDone) {
-			return;
+	const maybeSettle = () => {
+		if (values.length === count) {
+			resolve(values);
+			isSettled = true;
 		}
 
+		if (elementCount - errors.length < count) {
+			reject(new AggregateError(errors));
+			isSettled = true;
+		}
+
+		return isSettled;
+	};
+
+	const cancelPending = () => {
 		for (const promise of iterable) {
 			if (!completed.has(promise) && typeof promise.cancel === 'function') {
 				promise.cancel();
@@ -24395,74 +24560,45 @@ const pSome = (iterable, options) => new PCancelable((resolve, reject, onCancel)
 		}
 	};
 
-	onCancel(() => {
-		isDone = true;
-		cancelPendingIfDone();
-	});
-
-	const fulfilled = value => {
-		if (isDone) {
-			return;
-		}
-
-		if (!options.filter(value)) {
-			if (--maxFiltered === 0) {
-				isDone = true;
-				reject(new RangeError('Not enough values pass the `filter` option'));
-			}
-
-			return;
-		}
-
-		values.push(value);
-
-		if (--options.count === 0) {
-			isDone = true;
-			resolve(values);
-		}
-	};
-
-	const rejected = error => {
-		if (isDone) {
-			return;
-		}
-
-		errors.push(error);
-
-		if (--maxErrors === 0) {
-			isDone = true;
-			reject(new AggregateError(errors));
-		}
-	};
+	onCancel(cancelPending);
 
 	for (const element of iterable) {
-		maxErrors++;
-		maxFiltered++;
 		elementCount++;
 
 		(async () => {
 			try {
-				const value = await Promise.resolve(element);
-				fulfilled(value);
-			} catch (error) {
-				rejected(error);
-			}
+				const value = await element;
 
-			completed.add(element);
-			cancelPendingIfDone();
+				if (isSettled) {
+					return;
+				}
+
+				if (!filter(value)) {
+					throw new FilterError('Value does not satisfy filter');
+				}
+
+				values.push(value);
+			} catch (error) {
+				errors.push(error);
+			} finally {
+				completed.add(element);
+
+				if (!isSettled && maybeSettle()) {
+					cancelPending();
+				}
+			}
 		})();
 	}
 
-	if (options.count > elementCount) {
-		throw new RangeError(`Expected input to contain at least ${options.count} items, but contains ${elementCount} items`);
+	if (count > elementCount) {
+		reject(new RangeError(`Expected input to contain at least ${options.count} items, but contains ${elementCount} items`));
+		cancelPending();
 	}
 });
 
 module.exports = pSome;
-// TODO: Remove this for the next major release
-module.exports.default = pSome;
-
 module.exports.AggregateError = AggregateError;
+module.exports.FilterError = FilterError;
 
 
 /***/ }),
@@ -27619,7 +27755,7 @@ for (var i = 0; i < modules.length; i++) {
 const pSome = __webpack_require__("htIY");
 const PCancelable = __webpack_require__("ijcl");
 
-const pAny = (iterable, options) => {
+module.exports = (iterable, options) => {
 	const anyCancelable = pSome(iterable, {...options, count: 1});
 
 	return PCancelable.fn(async onCancel => {
@@ -27631,10 +27767,6 @@ const pAny = (iterable, options) => {
 		return value;
 	})();
 };
-
-module.exports = pAny;
-// TODO: Remove this for the next major release
-module.exports.default = pAny;
 
 module.exports.AggregateError = pSome.AggregateError;
 
@@ -27885,12 +28017,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__("zOht");
 const cookies_1 = __webpack_require__("gKi1");
 function createLogoutUrl(settings) {
-    return (`https://${settings.domain}/v2/logout?`
-        + `client_id=${settings.clientId}`
-        + `&returnTo=${encodeURIComponent(settings.postLogoutRedirectUri)}`);
+    return (`https://${settings.domain}/v2/logout?` +
+        `client_id=${settings.clientId}` +
+        `&returnTo=${encodeURIComponent(settings.postLogoutRedirectUri)}`);
 }
 function logoutHandler(settings, sessionSettings) {
     return (req, res) => tslib_1.__awaiter(this, void 0, void 0, function* () {
+        if (!req) {
+            throw new Error('Request is not available');
+        }
         if (!res) {
             throw new Error('Response is not available');
         }
@@ -28392,7 +28527,7 @@ module.exports.unwrapKey = unwrapKey
 /***/ "nK8a":
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"name\":\"openid-client\",\"version\":\"3.13.0\",\"description\":\"OpenID Connect Relying Party (RP, Client) implementation for Node.js runtime, supports passportjs\",\"keywords\":[\"auth\",\"authentication\",\"basic\",\"certified\",\"client\",\"connect\",\"dynamic\",\"electron\",\"hybrid\",\"identity\",\"implicit\",\"oauth\",\"oauth2\",\"oidc\",\"openid\",\"passport\",\"relying party\",\"strategy\"],\"homepage\":\"https://github.com/panva/node-openid-client\",\"repository\":\"panva/node-openid-client\",\"license\":\"MIT\",\"author\":\"Filip Skokan <panva.ip@gmail.com>\",\"files\":[\"lib\",\"types/index.d.ts\"],\"funding\":\"https://github.com/sponsors/panva\",\"main\":\"lib/index.js\",\"types\":\"types/index.d.ts\",\"scripts\":{\"coverage\":\"nyc mocha test/**/*.test.js\",\"lint\":\"eslint lib test && dtslint types\",\"lint-fix\":\"eslint lib test --fix\",\"test\":\"mocha test/**/*.test.js\"},\"dependencies\":{\"@types/got\":\"^9.6.9\",\"base64url\":\"^3.0.1\",\"got\":\"^9.6.0\",\"jose\":\"^1.23.0\",\"lodash\":\"^4.17.15\",\"lru-cache\":\"^5.1.1\",\"make-error\":\"^1.3.5\",\"object-hash\":\"^2.0.1\",\"oidc-token-hash\":\"^5.0.0\",\"p-any\":\"^2.1.0\"},\"devDependencies\":{\"@commitlint/cli\":\"^8.3.4\",\"@commitlint/config-conventional\":\"^8.3.4\",\"@types/passport\":\"^1.0.2\",\"chai\":\"^4.2.0\",\"dtslint\":\"^2.0.5\",\"eslint\":\"^6.8.0\",\"eslint-config-airbnb-base\":\"^14.0.0\",\"eslint-plugin-import\":\"^2.19.1\",\"husky\":\"^4.0.0\",\"mocha\":\"^7.0.0\",\"nock\":\"^11.7.1\",\"nyc\":\"^15.0.0\",\"readable-mock-req\":\"^0.2.2\",\"sinon\":\"^8.0.4\",\"timekeeper\":\"^2.2.0\"},\"engines\":{\"node\":\"^10.13.0 || >=12.0.0\"},\"commitlint\":{\"extends\":[\"@commitlint/config-conventional\"]},\"husky\":{\"hooks\":{\"commit-msg\":\"commitlint -E HUSKY_GIT_PARAMS\"}},\"nyc\":{\"reporter\":[\"lcov\",\"text-summary\"]}}");
+module.exports = JSON.parse("{\"name\":\"openid-client\",\"version\":\"3.14.0\",\"description\":\"OpenID Connect Relying Party (RP, Client) implementation for Node.js runtime, supports passportjs\",\"keywords\":[\"auth\",\"authentication\",\"basic\",\"certified\",\"client\",\"connect\",\"dynamic\",\"electron\",\"hybrid\",\"identity\",\"implicit\",\"oauth\",\"oauth2\",\"oidc\",\"openid\",\"passport\",\"relying party\",\"strategy\"],\"homepage\":\"https://github.com/panva/node-openid-client\",\"repository\":\"panva/node-openid-client\",\"license\":\"MIT\",\"author\":\"Filip Skokan <panva.ip@gmail.com>\",\"files\":[\"lib\",\"types/index.d.ts\"],\"funding\":\"https://github.com/sponsors/panva\",\"main\":\"lib/index.js\",\"types\":\"types/index.d.ts\",\"scripts\":{\"coverage\":\"nyc mocha test/**/*.test.js\",\"lint\":\"eslint lib test && dtslint types\",\"lint-fix\":\"eslint lib test --fix\",\"test\":\"mocha test/**/*.test.js\"},\"dependencies\":{\"@types/got\":\"^9.6.9\",\"base64url\":\"^3.0.1\",\"got\":\"^9.6.0\",\"jose\":\"^1.23.0\",\"lodash\":\"^4.17.15\",\"lru-cache\":\"^5.1.1\",\"make-error\":\"^1.3.5\",\"object-hash\":\"^2.0.1\",\"oidc-token-hash\":\"^5.0.0\",\"p-any\":\"^3.0.0\"},\"devDependencies\":{\"@commitlint/cli\":\"^8.3.4\",\"@commitlint/config-conventional\":\"^8.3.4\",\"@types/passport\":\"^1.0.2\",\"chai\":\"^4.2.0\",\"dtslint\":\"^2.0.5\",\"eslint\":\"^6.8.0\",\"eslint-config-airbnb-base\":\"^14.0.0\",\"eslint-plugin-import\":\"^2.19.1\",\"husky\":\"^4.0.0\",\"mocha\":\"^7.0.0\",\"nock\":\"^11.7.1\",\"nyc\":\"^15.0.0\",\"readable-mock-req\":\"^0.2.2\",\"sinon\":\"^8.0.4\",\"timekeeper\":\"^2.2.0\"},\"engines\":{\"node\":\"^10.13.0 || >=12.0.0\"},\"commitlint\":{\"extends\":[\"@commitlint/config-conventional\"]},\"husky\":{\"hooks\":{\"commit-msg\":\"commitlint -E HUSKY_GIT_PARAMS\"}},\"nyc\":{\"reporter\":[\"lcov\",\"text-summary\"]}}");
 
 /***/ }),
 
@@ -29193,6 +29328,9 @@ class CookieSessionStore {
      */
     read(req) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            if (!req) {
+                throw new Error('Request is not available');
+            }
             const { cookieSecret, cookieName } = this.settings;
             const cookies = cookies_1.parseCookies(req);
             const cookie = cookies[cookieName];
@@ -29212,14 +29350,22 @@ class CookieSessionStore {
      */
     save(req, res, session) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const { cookieSecret, cookieName, cookiePath, cookieLifetime } = this.settings;
-            const { idToken, accessToken, refreshToken, user, createdAt } = session;
+            if (!res) {
+                throw new Error('Response is not available');
+            }
+            if (!req) {
+                throw new Error('Request is not available');
+            }
+            const { cookieSecret, cookieName, cookiePath, cookieLifetime, cookieDomain, cookieSameSite } = this.settings;
+            const { idToken, accessToken, accessTokenExpiresAt, accessTokenScope, refreshToken, user, createdAt } = session;
             const persistedSession = new session_1.default(user, createdAt);
             if (this.settings.storeIdToken && idToken) {
                 persistedSession.idToken = idToken;
             }
             if (this.settings.storeAccessToken && accessToken) {
                 persistedSession.accessToken = accessToken;
+                persistedSession.accessTokenScope = accessTokenScope;
+                persistedSession.accessTokenExpiresAt = accessTokenExpiresAt;
             }
             if (this.settings.storeRefreshToken && refreshToken) {
                 persistedSession.refreshToken = refreshToken;
@@ -29229,8 +29375,11 @@ class CookieSessionStore {
                 name: cookieName,
                 value: encryptedSession,
                 path: cookiePath,
-                maxAge: cookieLifetime
+                maxAge: cookieLifetime,
+                domain: cookieDomain,
+                sameSite: cookieSameSite
             });
+            return persistedSession;
         });
     }
 }
@@ -33020,6 +33169,81 @@ function identity(value) {
 
 module.exports = identity;
 
+
+/***/ }),
+
+/***/ "zgCa":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__("zOht");
+const access_token_error_1 = tslib_1.__importDefault(__webpack_require__("Ni7F"));
+const session_1 = tslib_1.__importDefault(__webpack_require__("dKo8"));
+const array_1 = __webpack_require__("PTLu");
+class SessionTokenCache {
+    constructor(store, clientProvider, req, res) {
+        this.store = store;
+        this.clientProvider = clientProvider;
+        this.req = req;
+        this.res = res;
+    }
+    getAccessToken(accessTokenRequest) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const session = yield this.store.read(this.req);
+            if (!session) {
+                throw new access_token_error_1.default('invalid_session', 'The user does not have a valid session.');
+            }
+            if (!session.accessToken && !session.refreshToken) {
+                throw new access_token_error_1.default('invalid_session', 'The user does not have a valid access token.');
+            }
+            if (!session.accessTokenExpiresAt) {
+                throw new access_token_error_1.default('access_token_expired', 'Expiration information for the access token is not available. The user will need to sign in again.');
+            }
+            if (accessTokenRequest && accessTokenRequest.scopes) {
+                const persistedScopes = session.accessTokenScope;
+                if (!persistedScopes || persistedScopes.length === 0) {
+                    throw new access_token_error_1.default('insufficient_scope', 'An access token with the requested scopes could not be provided. The user will need to sign in again.');
+                }
+                const matchingScopes = array_1.intersect(accessTokenRequest.scopes, persistedScopes.split(' '));
+                if (!array_1.match(accessTokenRequest.scopes, [...matchingScopes])) {
+                    throw new access_token_error_1.default('insufficient_scope', `Could not retrieve an access token with scopes "${accessTokenRequest.scopes.join(' ')}". The user will need to sign in again.`);
+                }
+            }
+            // Check if the token has expired.
+            // There is an edge case where we might have some clock skew where our code assumes the token is still valid.
+            // Adding a skew of 1 minute to compensate.
+            if (!session.refreshToken && session.accessTokenExpiresAt * 1000 - 60000 < Date.now()) {
+                throw new access_token_error_1.default('access_token_expired', 'The access token expired and a refresh token is not available. The user will need to sign in again.');
+            }
+            // Check if the token has expired.
+            // There is an edge case where we might have some clock skew where our code assumes the token is still valid.
+            // Adding a skew of 1 minute to compensate.
+            if (session.refreshToken && session.accessTokenExpiresAt * 1000 - 60000 < Date.now()) {
+                const client = yield this.clientProvider();
+                const tokenSet = yield client.refresh(session.refreshToken);
+                // Update the session.
+                const newSession = session_1.default(tokenSet);
+                yield this.store.save(this.req, this.res, Object.assign(Object.assign({}, newSession), { refreshToken: newSession.refreshToken || session.refreshToken }));
+                // Return the new access token.
+                return {
+                    accessToken: tokenSet.access_token
+                };
+            }
+            // We don't have an access token.
+            if (!session.accessToken) {
+                throw new access_token_error_1.default('invalid_session', 'The user does not have a valid access token.');
+            }
+            // The access token is not expired and has sufficient scopes;
+            return {
+                accessToken: session.accessToken
+            };
+        });
+    }
+}
+exports.default = SessionTokenCache;
+//# sourceMappingURL=session-token-cache.js.map
 
 /***/ }),
 

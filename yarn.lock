@@ -44,15 +44,15 @@
   resolved "https://registry.yarnpkg.com/@ampproject/toolbox-script-csp/-/toolbox-script-csp-1.1.1.tgz#0b049a1c86c99f300162a10e1b9ce83c6e354a45"
   integrity sha512-gACGfsVKinCy/977FSrlVgo6jxTZ0lcTCvCnRlNwvSOcxJVm+jJR3sP7/F43fpak9Gsq/EwFaatfnNMbunPc+w==
 
-"@auth0/nextjs-auth0@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@auth0/nextjs-auth0/-/nextjs-auth0-0.5.0.tgz#892af351f38b6111e186dc249ea8c19ee73a96e2"
-  integrity sha512-CCvqQG0v1EjGe6LTmg/edCd+WB7AZnr5Czmb9KxYFmsQ5OFB6qLeNhn3uz/xTy145nQcpzM22uxgsRO2iovljw==
+"@auth0/nextjs-auth0@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@auth0/nextjs-auth0/-/nextjs-auth0-0.10.0.tgz#36013db491fc319291f83d8b008fc7dacc3ebf3e"
+  integrity sha512-dVz30H4LcLkphOsm9ptWsZgaOx8hrnDOndFQeqr4LlZp5tj/J3hLRczfoHNKYH8Zn34U0iNNx3JTHcZlGJA3uQ==
   dependencies:
     "@hapi/iron" "^5.1.4"
     base64url "^3.0.1"
     cookie "^0.4.0"
-    openid-client "^3.7.2"
+    openid-client "^3.7.4"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5", "@babel/code-frame@^7.8.3":
   version "7.8.3"
@@ -5981,10 +5981,10 @@ opener@^1.5.1:
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.5.1.tgz#6d2f0e77f1a0af0032aca716c2c1fbb8e7e8abed"
   integrity sha512-goYSy5c2UXE4Ra1xixabeVh1guIX/ZV/YokJksb6q2lubWu6UbvPQ20p542/sFIll1nl8JnCyK9oBaOcCWXwvA==
 
-openid-client@^3.7.2:
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/openid-client/-/openid-client-3.13.0.tgz#9b1686718cbe8c7eb0391de2cf0b698fa3a39d07"
-  integrity sha512-IhkIYjnmlnwX0tZc1r6MINXdYyyK0XLHLU31GecKXS6u2MPauStwakL2Vi0sjyLqAnqOp49BZ6VZmAdJmvb2cA==
+openid-client@^3.7.4:
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/openid-client/-/openid-client-3.14.0.tgz#acf5103def7e9ea9523ae4bc171e18a0e577960a"
+  integrity sha512-YgAEeuJRPcB4YHz5dD4dOMnCo/IZSzwiH4eCGStcejjEgA6ekWuHuIK+hV3vAsfB5APGLYyCLhVtda93wLEtFA==
   dependencies:
     "@types/got" "^9.6.9"
     base64url "^3.0.1"
@@ -5995,7 +5995,7 @@ openid-client@^3.7.2:
     make-error "^1.3.5"
     object-hash "^2.0.1"
     oidc-token-hash "^5.0.0"
-    p-any "^2.1.0"
+    p-any "^3.0.0"
 
 optionator@^0.8.3:
   version "0.8.3"
@@ -6031,14 +6031,13 @@ os-tmpdir@~1.0.2:
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
   integrity sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=
 
-p-any@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/p-any/-/p-any-2.1.0.tgz#719489408e14f5f941a748f1e817f5c71cab35cb"
-  integrity sha512-JAERcaMBLYKMq+voYw36+x5Dgh47+/o7yuv2oQYuSSUml4YeqJEFznBrY2UeEkoSHqBua6hz518n/PsowTYLLg==
+p-any@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/p-any/-/p-any-3.0.0.tgz#79847aeed70b5d3a10ea625296c0c3d2e90a87b9"
+  integrity sha512-5rqbqfsRWNb0sukt0awwgJMlaep+8jV45S15SKKB34z4UuzjcofIfnriCBhWjZP2jbVtjt9yRl7buB6RlKsu9w==
   dependencies:
     p-cancelable "^2.0.0"
-    p-some "^4.0.0"
-    type-fest "^0.3.0"
+    p-some "^5.0.0"
 
 p-cancelable@^1.0.0:
   version "1.1.0"
@@ -6105,10 +6104,10 @@ p-map@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-2.1.0.tgz#310928feef9c9ecc65b68b17693018a665cea175"
   integrity sha512-y3b8Kpd8OAN444hxfBbFfj1FY/RjtTd8tzYwhUqNYXx0fXx2iX4maP4Qr6qhIKbQXI02wTLAda4fYUbDagTUFw==
 
-p-some@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/p-some/-/p-some-4.1.0.tgz#28e73bc1e0d62db54c2ed513acd03acba30d5c04"
-  integrity sha512-MF/HIbq6GeBqTrTIl5OJubzkGU+qfFhAFi0gnTAK6rgEIJIknEiABHOTtQu4e6JiXjIwuMPMUFQzyHh5QjCl1g==
+p-some@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/p-some/-/p-some-5.0.0.tgz#8b730c74b4fe5169d7264a240ad010b6ebc686a4"
+  integrity sha512-Js5XZxo6vHjB9NOYAzWDYAIyyiPvva0DWESAIWIK7uhSpGsyg5FwUPxipU/SOQx5x9EqhOh545d1jo6cVkitig==
   dependencies:
     aggregate-error "^3.0.0"
     p-cancelable "^2.0.0"
@@ -8273,7 +8272,7 @@ type-check@~0.3.2:
   dependencies:
     prelude-ls "~1.1.2"
 
-type-fest@^0.3.0, type-fest@^0.3.1:
+type-fest@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.3.1.tgz#63d00d204e059474fe5e1b7c011112bbd1dc29e1"
   integrity sha512-cUGJnCdr4STbePCgqNFbpVNCepa+kAVohJs1sLhxzdH+gnEoOd8VhbYa7pD3zZYGiURWM2xzEII3fQcRizDkYQ==

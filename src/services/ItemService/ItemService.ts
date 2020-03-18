@@ -8,8 +8,7 @@ export type Item = {
     username?: string
 }
 
-const TableName =
-    process.env.NODE_ENV !== 'production' ? 'user-items-dev' : 'user-items-prod'
+const TableName = 'user-items-prod'
 
 export const getItems = async ({ username }: Item): Promise<Item[]> => {
     const { Items } = await dbClient
