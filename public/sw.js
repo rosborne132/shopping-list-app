@@ -1,89 +1,132 @@
 if (!self.define) {
-    const e = async e => {
-            if (
-                ('require' !== e && (e += '.js'),
-                !c[e] &&
-                    (await new Promise(async n => {
+    const e = e => {
+            'require' !== e && (e += '.js')
+            let i = Promise.resolve()
+            return (
+                n[e] ||
+                    (i = new Promise(async i => {
                         if ('document' in self) {
-                            const c = document.createElement('script')
-                            ;(c.src = e),
-                                document.head.appendChild(c),
-                                (c.onload = n)
-                        } else importScripts(e), n()
-                    }),
-                    !c[e]))
-            )
-                throw new Error(`Module ${e} didn’t register its module`)
-            return c[e]
-        },
-        n = async (n, c) => {
-            const i = await Promise.all(n.map(e))
-            c(1 === i.length ? i[0] : i)
-        },
-        c = { require: Promise.resolve(n) }
-    self.define = (n, i, a) => {
-        c[n] ||
-            (c[n] = new Promise(async c => {
-                let s = {}
-                const o = { uri: location.origin + n.slice(1) },
-                    r = await Promise.all(
-                        i.map(n =>
-                            'exports' === n ? s : 'module' === n ? o : e(n)
+                            const n = document.createElement('script')
+                            ;(n.src = e),
+                                document.head.appendChild(n),
+                                (n.onload = i)
+                        } else importScripts(e), i()
+                    })),
+                i.then(() => {
+                    if (!n[e])
+                        throw new Error(
+                            `Module ${e} didn’t register its module`
                         )
-                    ),
-                    d = a(...r)
-                s.default || (s.default = d), c(s)
+                    return n[e]
+                })
+            )
+        },
+        i = (i, n) => {
+            Promise.all(i.map(e)).then(e => n(1 === e.length ? e[0] : e))
+        },
+        n = { require: Promise.resolve(i) }
+    self.define = (i, c, a) => {
+        n[i] ||
+            (n[i] = Promise.resolve().then(() => {
+                let n = {}
+                const s = { uri: location.origin + i.slice(1) }
+                return Promise.all(
+                    c.map(i => {
+                        switch (i) {
+                            case 'exports':
+                                return n
+                            case 'module':
+                                return s
+                            default:
+                                return e(i)
+                        }
+                    })
+                ).then(e => {
+                    const i = a(...e)
+                    return n.default || (n.default = i), n
+                })
             }))
     }
 }
-define('./sw.js', ['./workbox-eb42688b'], function(e) {
+define('./sw.js', ['./workbox-6f0d2936'], function(e) {
     'use strict'
-    e.skipWaiting(),
+    importScripts(),
+        e.skipWaiting(),
         e.clientsClaim(),
         e.precacheAndRoute(
             [
-                { url: '/', revision: 'IRT50xmkkWxUcz-Ky-wUC' },
+                { url: '/', revision: 'SFtx7v-GuNCi63tu7jSMe' },
                 {
-                    url: '/_next/static/IRT50xmkkWxUcz-Ky-wUC/pages/_app.js',
-                    revision: '7b555cc3ca2d8e928f8bdbb51d1b2fe9'
+                    url:
+                        '/_next/static/SFtx7v-GuNCi63tu7jSMe/_buildManifest.js',
+                    revision: 'db78e146c6d3c1c742ad111cdbfe5466'
                 },
                 {
-                    url: '/_next/static/IRT50xmkkWxUcz-Ky-wUC/pages/_error.js',
-                    revision: 'a06889e102241781909164ec27eddddf'
+                    url: '/_next/static/SFtx7v-GuNCi63tu7jSMe/_ssgManifest.js',
+                    revision: 'abee47769bf307639ace4945f9cfd4ff'
                 },
                 {
-                    url: '/_next/static/IRT50xmkkWxUcz-Ky-wUC/pages/app.js',
-                    revision: '1774ffbe00a05e5988523d4c534757f6'
+                    url: '/_next/static/SFtx7v-GuNCi63tu7jSMe/pages/_app.js',
+                    revision: 'b6d25f1c96cffd0090971b9f99b004df'
                 },
                 {
-                    url: '/_next/static/IRT50xmkkWxUcz-Ky-wUC/pages/index.js',
-                    revision: '6734d202bf1f7d4369d8390ebac65712'
+                    url: '/_next/static/SFtx7v-GuNCi63tu7jSMe/pages/_error.js',
+                    revision: '9ad7f916fb992ac0429222f8f32df4d8'
                 },
                 {
-                    url: '/_next/static/chunks/commons.40fe4f1e7932c5ae491f.js',
-                    revision: 'e042c1ffeea81a2036fb266fea9c2826'
+                    url: '/_next/static/SFtx7v-GuNCi63tu7jSMe/pages/app.js',
+                    revision: 'a4c61ad2e3f05ba1312d604919e8c853'
                 },
                 {
-                    url: '/_next/static/chunks/styles.0742c3ccadaf0ef91877.js',
-                    revision: '61c3012f171fb5b60f176579d1104036'
-                },
-                {
-                    url: '/_next/static/css/styles.aa85b28b.chunk.css',
-                    revision: 'cdf414d279d85642c74c6edec54b6611'
-                },
-                {
-                    url: '/_next/static/runtime/main-a9e8bb883bf59dc8fd3c.js',
-                    revision: '9f1acc71912f685a7aa8dc4aab52b15d'
+                    url: '/_next/static/SFtx7v-GuNCi63tu7jSMe/pages/index.js',
+                    revision: '4f65db6ef6b5f0a816c9c0e34bbd96c0'
                 },
                 {
                     url:
-                        '/_next/static/runtime/polyfills-e16a3c6fbdef155ac22e.js',
-                    revision: '5f3515baa545a76d48133cd7949ee3a2'
+                        '/_next/static/chunks/05d954cf.061b2fb7e7e7fc669734.js',
+                    revision: 'a78537b70c05125de6250e3d50154ad9'
                 },
                 {
                     url:
-                        '/_next/static/runtime/webpack-9369c5c69dbf6d4912cb.js',
-                    revision: 'f5e6e2fca3144cc944812cfa3547f475'
+                        '/_next/static/chunks/a4ee5581298224b76eb81f5a1d22cd102a3c9c47.bbc0396b051d2d7b6bc6.js',
+                    revision: '1db40b169b953c63537fcbd0143b6ced'
+                },
+                {
+                    url:
+                        '/_next/static/chunks/cb1608f2.f9813b2e58d78697cd52.js',
+                    revision: '1e27e534f35dea45c3369d31de814edf'
+                },
+                {
+                    url: '/_next/static/chunks/commons.9ea944bac089a9901ff2.js',
+                    revision: '69e940b0d31a77b43fd8c06291a6599a'
+                },
+                {
+                    url:
+                        '/_next/static/chunks/e0c2ced9417672c8b0646da0ba89667739faedf1.85fd0deaea294e1fcc6e.js',
+                    revision: 'f67080271f0b5422f7055d66bdfefdf6'
+                },
+                {
+                    url:
+                        '/_next/static/chunks/framework.308e38c37968bd8b614c.js',
+                    revision: 'bfb4edf278496d3e79aef41637033d0e'
+                },
+                {
+                    url: '/_next/static/css/5020b8844a5b8d289dd6.css',
+                    revision: 'bfcbdcd31398b180df6733a3a01a1ff4'
+                },
+                {
+                    url: '/_next/static/runtime/main-c1af368bbc7cc3622ad4.js',
+                    revision: '37c99b087210ee377d88e6af2407535a'
+                },
+                {
+                    url:
+                        '/_next/static/runtime/polyfills-b59c2e652f7ed0f032dc.js',
+                    revision: '9695e650b5d6919d57e7547af38d3853'
+                },
+                {
+                    url:
+                        '/_next/static/runtime/webpack-91b117697e716c22a78b.js',
+                    revision: '40b4095b5b68a142c856f388ccb756f2'
                 },
                 {
                     url: '/android-icon-144x144.png',
@@ -222,7 +265,7 @@ define('./sw.js', ['./workbox-eb42688b'], function(e) {
                     revision: '09714d62a2274008b638fdf3f996135e'
                 }
             ],
-            {}
+            { ignoreURLParametersMatching: [] }
         ),
         e.cleanupOutdatedCaches(),
         e.registerRoute(

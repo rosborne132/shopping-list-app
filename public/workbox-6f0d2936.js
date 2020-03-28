@@ -1,7 +1,7 @@
-define('./workbox-eb42688b.js', ['exports'], function(t) {
+define('./workbox-6f0d2936.js', ['exports'], function(t) {
     'use strict'
     try {
-        self['workbox:core:5.0.0'] && _()
+        self['workbox:core:5.1.2'] && _()
     } catch (t) {}
     const e = (t, ...e) => {
         let s = t
@@ -13,7 +13,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
         }
     }
     try {
-        self['workbox:routing:5.0.0'] && _()
+        self['workbox:routing:5.1.2'] && _()
     } catch (t) {}
     const n = t => (t && 'object' == typeof t ? t : { handle: t })
     class i {
@@ -34,10 +34,11 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
             )
         }
     }
-    const a = t => {
-        const e = new URL(String(t), location.href)
-        return e.origin === location.origin ? e.pathname : e.href
-    }
+    const a = t =>
+        new URL(String(t), location.href).href.replace(
+            new RegExp(`^${location.origin}`),
+            ''
+        )
     class c {
         constructor() {
             this.t = new Map()
@@ -73,34 +74,34 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
         handleRequest({ request: t, event: e }) {
             const s = new URL(t.url, location.href)
             if (!s.protocol.startsWith('http')) return
-            let n,
-                { params: i, route: r } = this.findMatchingRoute({
-                    url: s,
-                    request: t,
-                    event: e
-                }),
-                a = r && r.handler
+            const { params: n, route: i } = this.findMatchingRoute({
+                url: s,
+                request: t,
+                event: e
+            })
+            let r,
+                a = i && i.handler
             if ((!a && this.s && (a = this.s), a)) {
                 try {
-                    n = a.handle({ url: s, request: t, event: e, params: i })
+                    r = a.handle({ url: s, request: t, event: e, params: n })
                 } catch (t) {
-                    n = Promise.reject(t)
+                    r = Promise.reject(t)
                 }
                 return (
-                    n instanceof Promise &&
+                    r instanceof Promise &&
                         this.i &&
-                        (n = n.catch(n =>
+                        (r = r.catch(n =>
                             this.i.handle({ url: s, request: t, event: e })
                         )),
-                    n
+                    r
                 )
             }
         }
         findMatchingRoute({ url: t, request: e, event: s }) {
             const n = this.t.get(e.method) || []
             for (const i of n) {
-                let n,
-                    r = i.match({ url: t, request: e, event: s })
+                let n
+                const r = i.match({ url: t, request: e, event: s })
                 if (r)
                     return (
                         (n = r),
@@ -268,7 +269,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
                     return await this.g(s, e, t, ...n)
                 })
     try {
-        self['workbox:expiration:5.0.0'] && _()
+        self['workbox:expiration:5.1.2'] && _()
     } catch (t) {}
     const m = t => {
         const e = new URL(t, location.href)
@@ -381,7 +382,18 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
         }
     }
     const v = (t, e) => t.filter(t => e in t),
-        U = async ({
+        U = async ({ request: t, mode: e, plugins: s = [] }) => {
+            const n = v(s, 'cacheKeyWillBeUsed')
+            let i = t
+            for (const t of n)
+                (i = await t.cacheKeyWillBeUsed.call(t, {
+                    mode: e,
+                    request: i
+                })),
+                    'string' == typeof i && (i = new Request(i))
+            return i
+        },
+        L = async ({
             cacheName: t,
             request: e,
             event: s,
@@ -389,7 +401,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
             plugins: i = []
         }) => {
             const r = await self.caches.open(t),
-                a = await x({ plugins: i, request: e, mode: 'read' })
+                a = await U({ plugins: i, request: e, mode: 'read' })
             let c = await r.match(a, n)
             for (const e of i)
                 if ('cachedResponseWillBeUsed' in e) {
@@ -404,81 +416,66 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
                 }
             return c
         },
-        L = async ({ request: t, response: e, event: s, plugins: n = [] }) => {
-            let i = e,
-                r = !1
-            for (let e of n)
-                if ('cacheWillUpdate' in e) {
-                    r = !0
-                    const n = e.cacheWillUpdate
-                    if (
-                        ((i = await n.call(e, {
-                            request: t,
-                            response: i,
-                            event: s
-                        })),
-                        !i)
-                    )
-                        break
-                }
-            return r || (i = i && 200 === i.status ? i : void 0), i || null
-        },
-        x = async ({ request: t, mode: e, plugins: s = [] }) => {
-            const n = v(s, 'cacheKeyWillBeUsed')
-            let i = t
-            for (const t of n)
-                (i = await t.cacheKeyWillBeUsed.call(t, {
-                    mode: e,
-                    request: i
-                })),
-                    'string' == typeof i && (i = new Request(i))
-            return i
-        },
-        N = {
-            put: async ({
-                cacheName: t,
-                request: e,
-                response: n,
-                event: i,
-                plugins: r = [],
-                matchOptions: c
+        x = async ({
+            cacheName: t,
+            request: e,
+            response: n,
+            event: i,
+            plugins: r = [],
+            matchOptions: c
+        }) => {
+            const o = await U({ plugins: r, request: e, mode: 'write' })
+            if (!n) throw new s('cache-put-with-no-response', { url: a(o.url) })
+            const h = await (async ({
+                request: t,
+                response: e,
+                event: s,
+                plugins: n = []
             }) => {
-                const o = await x({ plugins: r, request: e, mode: 'write' })
-                if (!n)
-                    throw new s('cache-put-with-no-response', { url: a(o.url) })
-                let h = await L({
+                let i = e,
+                    r = !1
+                for (const e of n)
+                    if ('cacheWillUpdate' in e) {
+                        r = !0
+                        const n = e.cacheWillUpdate
+                        if (
+                            ((i = await n.call(e, {
+                                request: t,
+                                response: i,
+                                event: s
+                            })),
+                            !i)
+                        )
+                            break
+                    }
+                return r || (i = i && 200 === i.status ? i : void 0), i || null
+            })({ event: i, plugins: r, response: n, request: o })
+            if (!h) return
+            const u = await self.caches.open(t),
+                l = v(r, 'cacheDidUpdate'),
+                f =
+                    l.length > 0
+                        ? await L({ cacheName: t, matchOptions: c, request: o })
+                        : null
+            try {
+                await u.put(o, h)
+            } catch (t) {
+                throw ('QuotaExceededError' === t.name &&
+                    (await (async function() {
+                        for (const t of p) await t()
+                    })()),
+                t)
+            }
+            for (const e of l)
+                await e.cacheDidUpdate.call(e, {
+                    cacheName: t,
                     event: i,
-                    plugins: r,
-                    response: n,
+                    oldResponse: f,
+                    newResponse: h,
                     request: o
                 })
-                if (!h) return
-                const u = await self.caches.open(t),
-                    l = v(r, 'cacheDidUpdate')
-                let f =
-                    l.length > 0
-                        ? await U({ cacheName: t, matchOptions: c, request: o })
-                        : null
-                try {
-                    await u.put(o, h)
-                } catch (t) {
-                    throw ('QuotaExceededError' === t.name &&
-                        (await (async function() {
-                            for (const t of p) await t()
-                        })()),
-                    t)
-                }
-                for (let e of l)
-                    await e.cacheDidUpdate.call(e, {
-                        cacheName: t,
-                        event: i,
-                        oldResponse: f,
-                        newResponse: h,
-                        request: o
-                    })
-            },
-            match: U
         },
+        N = L,
         b = async ({
             request: t,
             fetchOptions: e,
@@ -495,7 +492,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
             const r = v(i, 'fetchDidFail'),
                 a = r.length > 0 ? t.clone() : null
             try {
-                for (let e of i)
+                for (const e of i)
                     if ('requestWillFetch' in e) {
                         const s = e.requestWillFetch,
                             i = t.clone()
@@ -506,7 +503,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
                     thrownError: t
                 })
             }
-            let c = t.clone()
+            const c = t.clone()
             try {
                 let s
                 s = 'navigate' === t.mode ? await fetch(t) : await fetch(t, e)
@@ -530,7 +527,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
             }
         }
     try {
-        self['workbox:strategies:5.0.0'] && _()
+        self['workbox:strategies:5.1.2'] && _()
     } catch (t) {}
     const E = {
         cacheWillUpdate: async ({ response: t }) =>
@@ -563,7 +560,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
         return new Response(r, i)
     }
     try {
-        self['workbox:precaching:5.0.0'] && _()
+        self['workbox:precaching:5.1.2'] && _()
     } catch (t) {}
     function O(t) {
         if (!t) throw new s('add-to-cache-list-unexpected-type', { entry: t })
@@ -688,7 +685,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
                     status: h.status
                 })
             h.redirected && (h = await M(h)),
-                await N.put({
+                await x({
                     event: i,
                     plugins: r,
                     response: h,
@@ -831,7 +828,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
         async handle({ event: t, request: e }) {
             'string' == typeof e && (e = new Request(e))
             let n,
-                i = await N.match({
+                i = await N({
                     cacheName: this.m,
                     request: e,
                     event: t,
@@ -855,7 +852,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
                     plugins: this.T
                 }),
                 n = s.clone(),
-                i = N.put({
+                i = x({
                     cacheName: this.m,
                     request: t,
                     response: n,
@@ -879,8 +876,8 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
                     cachedResponse: n
                 }) => {
                     if (!n) return null
-                    let i = this.A(n)
-                    const r = this.S(s)
+                    const i = this.A(n),
+                        r = this.S(s)
                     d(r.expireEntries())
                     const a = r.updateTimestamp(e.url)
                     if (t)
@@ -931,7 +928,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
                     (this.T = t.plugins || []),
                     t.plugins)
                 ) {
-                    let e = t.plugins.some(t => !!t.cacheWillUpdate)
+                    const e = t.plugins.some(t => !!t.cacheWillUpdate)
                     this.T = e ? t.plugins : [E, ...t.plugins]
                 } else this.T = [E]
                 ;(this.P = t.fetchOptions), (this.k = t.matchOptions)
@@ -940,7 +937,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
                 'string' == typeof e && (e = new Request(e))
                 const n = this.C({ request: e, event: t })
                 let i,
-                    r = await N.match({
+                    r = await N({
                         cacheName: this.m,
                         request: e,
                         event: t,
@@ -968,7 +965,7 @@ define('./workbox-eb42688b.js', ['exports'], function(t) {
                         fetchOptions: this.P,
                         plugins: this.T
                     }),
-                    n = N.put({
+                    n = x({
                         cacheName: this.m,
                         request: t,
                         response: s.clone(),
