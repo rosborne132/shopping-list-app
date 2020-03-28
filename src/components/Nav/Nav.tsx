@@ -1,11 +1,10 @@
 import * as React from 'react'
 import Link from 'next/link'
-
-import { UserContext } from '../../context'
+import { useUser } from '../../../lib/hooks'
 
 export const Nav: React.FC = React.memo(
     (): JSX.Element => {
-        const { isUserLoggedIn } = React.useContext(UserContext)
+        const { user, loading } = useUser()
         const linkStyle = 'no-underline white'
 
         return (
@@ -17,19 +16,25 @@ export const Nav: React.FC = React.memo(
                                 <a className={linkStyle}>Home</a>
                             </Link>
                         </li>
-                        {isUserLoggedIn ? (
-                            <li>
-                                <Link href="/api/auth/logout">
-                                    <a className={linkStyle}>Logout</a>
-                                </Link>
-                            </li>
-                        ) : (
-                            <li>
-                                <Link href="/api/auth/login">
-                                    <a className={linkStyle}>Login</a>
-                                </Link>
-                            </li>
-                        )}
+                        {!loading &&
+                            (user ? (
+                                <li>
+                                    <Link href="/api/auth/logout">
+                                        <a className={linkStyle}>Logout</a>
+                                    </Link>
+                                </li>
+                            ) : (
+                                <li>
+                                    <Link href="/api/auth/register">
+                                        <a className={`${linkStyle} pa3`}>
+                                            Register
+                                        </a>
+                                    </Link>
+                                    <Link href="/api/auth/login">
+                                        <a className={linkStyle}>Login</a>
+                                    </Link>
+                                </li>
+                            ))}
                     </ul>
                 </nav>
             </header>

@@ -1,4 +1,4 @@
-import auth0 from '../../../../lib/auth0'
+import auth0 from '../../../../lib/auth0/auth0'
 
 const logout = async (req, res) => {
     try {

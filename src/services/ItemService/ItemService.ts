@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid'
-import dbClient, { docClient, parseData } from '../../../lib/dynamodb'
+import { dbClient, docClient, parseData } from '../../../lib'
 
 export type Item = {
     isPurchased?: boolean

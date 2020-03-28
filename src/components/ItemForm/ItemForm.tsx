@@ -18,22 +18,24 @@ export const ItemForm: React.FC = React.memo(
         }
 
         return (
-            <form onSubmit={onSubmit}>
-                <fieldset className="bn flex justify-space pa0 ma0">
-                    <label className="w-100" htmlFor="shoppingItem">
-                        <input
-                            className="ba b--light-white br3 f4 indent pa1 w-90"
-                            value={shoppingItem}
-                            onChange={e => setShoppingItem(e.target.value)}
-                        />
-                    </label>
+            <form className="center" onSubmit={onSubmit}>
+                <fieldset className="bn flex justify-between ma0 pa0 w-100">
+                    <div className="flex w-100">
+                        <label className="w-100" htmlFor="shoppingItem">
+                            <input
+                                className="ba b--light-white br3 f4 indent pa2 w-90"
+                                value={shoppingItem}
+                                onChange={e => setShoppingItem(e.target.value)}
+                            />
+                        </label>
 
-                    <button
-                        className="bg-blue pointer br3 bn white"
-                        type="submit"
-                    >
-                        Submit
-                    </button>
+                        <button
+                            className="bg-blue bn br3 pa2 pointer w-25 white"
+                            type="submit"
+                        >
+                            Submit
+                        </button>
+                    </div>
                 </fieldset>
             </form>
         )
