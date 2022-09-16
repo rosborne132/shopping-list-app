@@ -5407,9 +5407,9 @@ jmespath@0.15.0:
   integrity sha1-o/Iiqarp+Wb10nx5ZRDigJF2Qhc=
 
 jose@^1.23.0:
-  version "1.23.0"
-  resolved "https://registry.yarnpkg.com/jose/-/jose-1.23.0.tgz#158f87880cbcf500a032c88a05045ddd78c79615"
-  integrity sha512-bbKXQzAudpuhl5o74AO2y7wW+quKWqah6Wde5SUoCEn1C3ewcT/WWsORlHAml8Sn5EtZHUUdyTlL1WgSosipMA==
+  version "1.28.2"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-1.28.2.tgz#97f4aa608d0020ae5c1051a2a33247b957401e5a"
+  integrity sha512-wWy51U2MXxYi3g8zk2lsQ8M6O1lartpkxuq1TYexzPKYLgHLZkCjklaATP36I5BUoWjF2sInB9U1Qf18fBZxNA==
   dependencies:
     "@panva/asn1.js" "^1.0.0"
 
